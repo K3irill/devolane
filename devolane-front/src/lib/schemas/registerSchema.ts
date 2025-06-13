@@ -34,6 +34,11 @@ export const registerSchema = yup.object({
 		.required('Repeat your password')
 		.min(8, 'Password must be at least 8 characters long')
 		.oneOf([yup.ref('password')], "Passwords don't match"),
+
+	terms: yup
+		.bool()
+		.required('Accept Terms & Conditions is required')
+		.oneOf([true], 'Accept Terms & Conditions is required'),
 })
 
 export type RegisterFormSchema = InferType<typeof registerSchema>

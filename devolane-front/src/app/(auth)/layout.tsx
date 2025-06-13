@@ -1,4 +1,5 @@
 import Header from '@/components/Header/Header'
+import { Providers } from '@/providers/providers'
 import '@/styles/globals.scss'
 
 export const metadata = {
@@ -13,8 +14,10 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<Header type='notRegister' />
-			<body>{children}</body>
+			<Header />
+			<body>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	)
 }
