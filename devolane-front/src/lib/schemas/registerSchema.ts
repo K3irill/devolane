@@ -1,0 +1,39 @@
+import * as yup from 'yup'
+import { InferType } from 'yup'
+
+export const registerSchema = yup.object({
+	name: yup
+		.string()
+		.required('Enter your name or nickname')
+		.matches(
+			/^[a-zA-Z0-9_\-$]+$/g,
+			'Your name must contain only letters, numbers, or «_», «-», «$» characters'
+		)
+		.min(3, 'Your name must be at least 3 characters long')
+		.max(12, 'Your name must be no more than 12 characters long'),
+
+	email: yup
+		.string()
+		.required('Enter your email address')
+		.matches(
+			/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+			'Please enter a valid email address'
+		),
+
+	password: yup
+		.string()
+		.required('Enter password')
+		.matches(
+			/^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9].*[0-9]).+$/,
+			'Password must contain at least one uppercase letter, one special character (!@#$%^&*), and two digits'
+		)
+		.min(8, 'Password must be at least 8 characters long'),
+
+	confirmPassword: yup
+		.string()
+		.required('Repeat your password')
+		.min(8, 'Password must be at least 8 characters long')
+		.oneOf([yup.ref('password')], "Passwords don't match"),
+})
+
+export type RegisterFormSchema = InferType<typeof registerSchema>
