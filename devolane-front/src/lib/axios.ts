@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { redirect } from 'next/navigation'
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333/api'
 
@@ -34,7 +35,7 @@ axiosInstance.interceptors.response.use(
 
 				return axiosInstance(originalRequest)
 			} catch (refreshError) {
-				window.location.href = '/login'
+				redirect('/login')
 				return Promise.reject(refreshError)
 			}
 		}

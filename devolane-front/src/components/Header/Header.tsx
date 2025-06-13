@@ -13,8 +13,10 @@ import {
 	HeaderNavList,
 } from './styled'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const Header: FC<IHeader> = () => {
+	const pathname = usePathname()
 	const [isLoading, setIsLoading] = useState(true)
 	useEffect(() => {
 		setIsLoading(false)
@@ -56,7 +58,11 @@ const Header: FC<IHeader> = () => {
 						</HeaderNavList>
 					</HeaderNavigation>
 					<HeaderActivity>
-						<Link href='/login'>Already have an account?</Link>
+						{pathname === '/login' ? (
+							<Link href='/register'>Sign Up</Link>
+						) : (
+							<Link href='/login'>Already have an account?</Link>
+						)}
 					</HeaderActivity>
 				</HeaderContent>
 			</Container>

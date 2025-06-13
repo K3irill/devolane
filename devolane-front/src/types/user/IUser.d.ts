@@ -22,3 +22,13 @@ export type IUserRegisterResponse = {
 		name: string
 	}
 }
+
+export type IUserLoginResponse = {
+	success: string
+	data: {
+		id: number
+		email: string
+		name: string
+		token: string
+	}
+}
