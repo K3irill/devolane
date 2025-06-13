@@ -1,4 +1,8 @@
-import { IUserLogin, IUserRegisterResponse } from '@/types/user/IUser'
+import {
+	IUserLogin,
+	IUserLoginResponse,
+	IUserRegisterResponse,
+} from '@/types/user/IUser'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { axiosInstance } from '@/lib/axios'
 import { AxiosError } from 'axios'
@@ -37,10 +41,7 @@ export const authApi = createApi({
 	reducerPath: 'authApi',
 	baseQuery: axiosBaseQuery(),
 	endpoints: builder => ({
-		loginUserByEmail: builder.mutation<
-			IUserLogin,
-			{ email: string; password: string }
-		>({
+		loginUserByEmail: builder.mutation<IUserLoginResponse, IUserLogin>({
 			query: ({ email, password }) => ({
 				url: `/auth/login`,
 				method: 'POST',
@@ -51,10 +52,7 @@ export const authApi = createApi({
 				params: {},
 			}),
 		}),
-		loginUserByPhone: builder.mutation<
-			IUserLogin,
-			{ phone: string; password: string }
-		>({
+		loginUserByPhone: builder.mutation<IUserLoginResponse, IUserLogin>({
 			query: ({ phone, password }) => ({
 				url: `/auth/login`,
 				method: 'POST',

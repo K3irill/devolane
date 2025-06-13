@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { glassGradientAnimation } from '@/styles/keyframes'
 import { Colors } from '@/lib/constants/Colors'
 
-export const RegisterFormContainer = styled(motion.div)`
+export const LoginFormContainer = styled(motion.div)`
 	max-width: 480px;
 	width: 100%;
 	height: 100%;
@@ -25,15 +25,16 @@ export const RegisterFormContainer = styled(motion.div)`
 	animation: ${glassGradientAnimation} 15s ease-in-out infinite;
 `
 
-export const RegisterStyled = styled.div`
+export const LoginStyled = styled.div`
 	padding-top: 15vh;
 `
-export const RegisterWrapper = styled(motion.div)`
+export const LoginWrapper = styled(motion.div)`
 	display: flex;
 	justify-content: space-between;
+	flex-direction: row-reverse;
 `
 
-export const RegisterForm = styled.form``
+export const LoginForm = styled.form``
 
 export const FormTitle = styled.h1`
 	text-align: center;
@@ -77,12 +78,14 @@ export const LeftBlockStyled = styled.div`
 	flex-direction: column;
 	gap: 35px;
 	line-height: 1.2;
+	overflow: hidden;
 `
 
 export const BoxWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding-bottom: 25px;
 `
 
 export const BoxStyled = styled(motion.div)`

@@ -6,20 +6,27 @@ interface IUserState {
 }
 
 const initialState: IUserState = {
-	user: null,
+	user:
+		typeof window !== 'undefined'
+			? JSON.parse(localStorage.getItem('user') || 'null')
+			: null,
 }
 
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		logout: () => initialState,
+		logout: () => {
+			localStorage.removeItem('user')
+			return initialState
+		},
 		setUser: (state, action: PayloadAction<IUser>) => {
 			state.user = action.payload
+			localStorage.setItem('user', JSON.stringify(action.payload))
 		},
 	},
 })
 
-export const {} = userSlice.actions
+export const { logout, setUser } = userSlice.actions
 
 export default userSlice.reducer

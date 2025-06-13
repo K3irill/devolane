@@ -1,7 +1,6 @@
 'use client'
 import * as React from 'react'
-import CancelIcon from '@mui/icons-material/Cancel'
-import Modal from '@mui/material/Modal'
+
 import Button from '@mui/material/Button'
 import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -17,12 +16,8 @@ import {
 	TextError,
 	TextLabel,
 	CheckboxWrapper,
-	BoxStyled,
-	BoxWrapper,
-	LeftBlock,
-	WelcomeTitle,
 } from './styled'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+
 import Checkbox from '@mui/material/Checkbox'
 import TextInput from '@/components/ui/TextInput/TextInput'
 
@@ -31,13 +26,15 @@ import {
 	registerSchema,
 } from '@/lib/schemas/registerSchema'
 
-import { motion } from 'framer-motion'
 import { Colors } from '@/lib/constants/Colors'
 import { useRegisterUserByEmailMutation } from '@/store/services/auth/auth.service'
 import { IUserRegister } from '@/types/user/IUser'
 import { useRouter } from 'next/navigation'
+import FormRegisterModal from './components/Modal/Modal'
+import LeftBlock from './components/LeftBlock/LeftBlock'
+import { WAITING_TIME } from './constant'
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
+const label = { inputProps: { 'aria-label': 'Checkbox accept Privacy' } }
 
 const RegisterModule = () => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -45,7 +42,7 @@ const RegisterModule = () => {
 	const {
 		register,
 		handleSubmit,
-		/*watch,*/
+		watch,
 		reset,
 		setFocus,
 		formState: { isSubmitting, errors, touchedFields },
@@ -53,7 +50,9 @@ const RegisterModule = () => {
 		resolver: yupResolver(registerSchema),
 		mode: 'onChange',
 	})
-	const WAITING_TIME = 5
+
+	const { confirmPassword, password, name, email } = watch()
+
 	const router = useRouter()
 	const [registerUser] = useRegisterUserByEmailMutation()
 	const [isRegisterSuccess, setRegisterSuccess] = useState<boolean>(false)
@@ -72,7 +71,6 @@ const RegisterModule = () => {
 			setRegError(null)
 			setRegisterSuccess(false)
 			const result = await registerUser(data).unwrap()
-			console.log('Registration successful:', result)
 			setRegisterSuccess(!!result)
 			reset()
 		} catch (error: unknown) {
@@ -99,7 +97,7 @@ const RegisterModule = () => {
 		if (isRegisterSuccess) {
 			timerRef.current = setInterval(() => {
 				setCountdown(prev => {
-					if (prev <= 1) {
+					if (prev <= 3) {
 						clearInterval(timerRef.current)
 						router.push('/login')
 						return 0
@@ -121,328 +119,163 @@ const RegisterModule = () => {
 	}
 
 	return (
-		<RegisterStyled>
-			<RegisterWrapper>
-				<LeftBlock>
-					<WelcomeTitle
-						initial={{
-							opacity: 0,
-							y: -50,
-							scale: 2,
-						}}
-						animate={{
-							opacity: 1,
-							y: 0,
-							scale: [1.1, 1, 1.1],
-						}}
-						transition={{
-							opacity: { duration: 0.8, ease: 'easeOut' },
-							y: { duration: 0.8, ease: 'easeOut' },
-							scale: {
-								duration: 3,
-								repeat: Infinity,
-								ease: 'easeInOut',
-							},
-						}}
-						style={{
-							background: 'linear-gradient(45deg, #05e6ff, #ff00e6c3)',
-							WebkitBackgroundClip: 'text',
-							WebkitTextFillColor: 'transparent',
-							fontSize: '2.5rem',
-							fontWeight: 'bold',
-							marginBottom: '2rem',
-							textShadow: '0 0 10px rgba(5, 230, 255, 0.3)',
-						}}
+		<>
+			<RegisterStyled>
+				<RegisterWrapper>
+					<LeftBlock />
+					<RegisterFormContainer
+						whileHover={{ transform: 'translateY(-5px)' }}
+						initial={{ transform: 'translateX(40px) translateY(-60px)' }}
+						animate={{ transform: 'translateX(0px) translateY(0px)' }}
+						transition={{ type: 'spring' }}
 					>
-						Welcome to Devolane
-					</WelcomeTitle>
-					<BoxWrapper>
-						<BoxStyled
-							initial={{
-								scale: 2,
-								rotate: 0,
-								opacity: 0,
-							}}
-							animate={{
-								scale: 1,
-								rotate: 360,
-								opacity: 1,
-							}}
-							whileHover={{
-								scale: 1.1,
-								boxShadow: '0 0 20px rgba(5, 230, 255, 0.5)',
-							}}
-							transition={{
-								scale: { type: 'spring', duration: 1, bounce: 0.4 },
-								rotate: {
-									type: 'tween',
-									duration: 4,
-									repeat: Infinity,
-									ease: 'linear',
-								},
-								opacity: { duration: 0.5 },
-							}}
-						>
-							<motion.span
-								style={{ color: '#05e6ff' }}
-								animate={{
-									rotate: 0,
-									textShadow: '0 0 10px rgba(5, 230, 255, 0.5)',
-								}}
-								transition={{ duration: 0 }}
-							>
-								Devo
-							</motion.span>
-						</BoxStyled>
-						<BoxStyled
-							style={{ borderColor: '#05e6ff' }}
-							initial={{
-								scale: 2,
-								rotate: 0,
-								opacity: 0,
-							}}
-							animate={{
-								scale: 1,
-								rotate: -360,
-								opacity: 1,
-							}}
-							whileHover={{
-								scale: 1.1,
-								boxShadow: '0 0 20px rgba(240, 0, 136, 0.5)',
-							}}
-							transition={{
-								scale: { type: 'spring', duration: 1, bounce: 0.4 },
-								rotate: {
-									type: 'tween',
-									duration: 4,
-									repeat: Infinity,
-									ease: 'linear',
-								},
-								opacity: { duration: 0.5 },
-							}}
-						>
-							<motion.span
-								style={{ color: '#f08' }}
-								animate={{
-									rotate: 0,
-									textShadow: '0 0 10px rgba(240, 0, 136, 0.5)',
-								}}
-								transition={{ duration: 0 }}
-							>
-								Lane
-							</motion.span>
-						</BoxStyled>
-					</BoxWrapper>
-				</LeftBlock>
-				<RegisterFormContainer
-					whileHover={{ transform: 'translateY(-5px)' }}
-					initial={{ transform: 'translateX(40px) translateY(-60px)' }}
-					animate={{ transform: 'translateX(0px) translateY(0px)' }}
-					transition={{ type: 'spring' }}
-				>
-					<RegisterForm onSubmit={handleSubmit(onRegisterSubmit)}>
-						<FormTitle>Signing Up</FormTitle>
-						<FormContent>
-							<FormLabel>
-								<TextLabel>Name</TextLabel>
-								{errors?.name?.message && (
-									<TextError>{errors.name.message}</TextError>
-								)}
-								<TextInput
-									{...register('name')}
-									type='text'
-									name='name'
-									id='name'
-									autoComplete='off'
-									animation
-									hasError={!!errors?.name?.message}
-									isValid={touchedFields.name && !errors?.name?.message}
-								/>
-							</FormLabel>
-							<FormLabel>
-								<TextLabel>Email</TextLabel>
-								{errors?.email?.message && (
-									<TextError>{errors.email.message}</TextError>
-								)}
-								<TextInput
-									{...register('email')}
-									type='email'
-									name='email'
-									id='email'
-									animation
-									autoComplete='off'
-									hasError={!!errors?.email?.message}
-									isValid={touchedFields.email && !errors?.email?.message}
-								/>
-							</FormLabel>
-							<FormLabel>
-								<TextLabel>Password</TextLabel>
-								{errors?.password?.message && (
-									<TextError>{errors.password.message}</TextError>
-								)}
-								<TextInput
-									{...register('password')}
-									type='password'
-									name='password'
-									autoComplete='off'
-									id='password'
-									animation
-									hasError={!!errors?.password?.message}
-									isValid={touchedFields.password && !errors?.password?.message}
-								/>
-							</FormLabel>
-							<FormLabel>
-								<TextLabel>Confirm Password</TextLabel>
-								{errors?.confirmPassword?.message && (
-									<TextError>{errors.confirmPassword.message}</TextError>
-								)}
-								<TextInput
-									{...register('confirmPassword')}
-									type='password'
-									name='confirmPassword'
-									id='confirmPassword'
-									animation
-									autoComplete='off'
-									hasError={!!errors?.confirmPassword?.message}
-									isValid={
-										touchedFields.confirmPassword &&
-										!errors?.confirmPassword?.message
-									}
-								/>
-							</FormLabel>
-							<FormLabel>
-								<CheckboxWrapper>
-									<Checkbox
-										{...register('terms')}
-										sx={{
-											color: !!errors?.confirmPassword?.message
-												? Colors.Red.error
-												: '#3f727a',
-										}}
-										{...label}
-										defaultChecked
+						<RegisterForm onSubmit={handleSubmit(onRegisterSubmit)}>
+							<FormTitle>Signing Up</FormTitle>
+							<FormContent>
+								<FormLabel>
+									<TextLabel>Name</TextLabel>
+									{errors?.name?.message && (
+										<TextError>{errors.name.message}</TextError>
+									)}
+									<TextInput
+										{...register('name')}
+										type='text'
+										name='name'
+										id='name'
+										autoComplete='off'
+										animation
+										hasError={!!errors?.name?.message}
+										isValid={
+											touchedFields.name &&
+											!errors?.name?.message &&
+											name?.length > 0
+										}
 									/>
-									<TextLabel
-										dangerouslySetInnerHTML={{
-											__html: `I agree to the processing of personal data in accordance
-										with the <a href="/privacy">Privacy Policy</a>`,
-										}}
-										size='0.8em'
+								</FormLabel>
+								<FormLabel>
+									<TextLabel>Email</TextLabel>
+									{errors?.email?.message && (
+										<TextError>{errors.email.message}</TextError>
+									)}
+									<TextInput
+										{...register('email')}
+										type='email'
+										name='email'
+										id='email'
+										animation
+										autoComplete='off'
+										hasError={!!errors?.email?.message}
+										isValid={
+											touchedFields.email &&
+											!errors?.email?.message &&
+											email?.length > 0
+										}
 									/>
-								</CheckboxWrapper>
-								{errors?.terms?.message && (
-									<TextError>{errors.terms.message}</TextError>
-								)}
-							</FormLabel>
-							<Button
-								sx={{
-									fontSize: '18px',
-									backgroundColor: '#1976d2',
-									color: 'white',
-									padding: '12px 32px',
-									borderRadius: '8px',
-
-									'&:hover': {
-										backgroundColor: '#1565c0',
-										transform: 'translateY(-2px)',
-										boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-									},
-									transition: 'all 0.3s ease',
-									'&:disabled': {
-										backgroundColor: '#e0e0e0',
-										color: '#9e9e9e',
-									},
-								}}
-								variant='contained'
-								type='submit'
-								disabled={isSubmitting}
-							>
-								{isSubmitting ? 'Signing up...' : 'Sign up'}
-							</Button>
-						</FormContent>
-
-						<Modal
-							open={isRegisterSuccess || isRegisterError}
-							onClose={() => {
-								if (isRegisterError) {
-									setRegisterError(false)
-								} else if (isRegisterSuccess) {
-									setRegisterSuccess(false)
-								}
-							}}
-							aria-labelledby='parent-modal-title'
-							aria-describedby='parent-modal-description'
-						>
-							<motion.div
-								initial={{ transform: 'translateY(-100%) translateX(-50%)' }}
-								animate={{ transform: 'translateY(-50%) translateX(-50%)' }}
-								transition={{ type: 'spring' }}
-								style={{
-									position: 'absolute',
-									top: '50%',
-									left: '50%',
-									transform: 'translate(-50%, -50%)',
-									width: 400,
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									gap: '25px',
-									backgroundColor: `${
-										isRegisterSuccess ? '#1b2b27c4' : '#2f0b0bac'
-									} `,
-									border: `2px solid ${
-										isRegisterSuccess ? '#09b846' : Colors.Red.error
-									}`,
-									borderRadius: '6px',
-									boxShadow: '24px',
-									paddingTop: 16,
-									paddingLeft: 32,
-									paddingRight: 32,
-									paddingBottom: 24,
-								}}
-							>
-								<h2
-									id='parent-modal-title'
-									style={{ fontSize: '1.5rem', textAlign: 'center' }}
-								>
-									{isRegisterSuccess
-										? `Registration was completed successfully`
-										: `Error during registration `}
-								</h2>
-								<motion.p
-									initial={{ scale: 0.3 }}
-									animate={{ scale: 1 }}
-									transition={{ duration: 1 }}
-								>
-									{isRegisterSuccess ? (
-										<CheckCircleIcon sx={{ fontSize: 72, fill: '#09b846' }} />
-									) : (
-										<CancelIcon
-											sx={{ fontSize: 72, fill: `${Colors.Red.error}` }}
+								</FormLabel>
+								<FormLabel>
+									<TextLabel>Password</TextLabel>
+									{errors?.password?.message && (
+										<TextError>{errors.password.message}</TextError>
+									)}
+									<TextInput
+										{...register('password')}
+										type='password'
+										name='password'
+										autoComplete='off'
+										id='password'
+										animation
+										hasError={!!errors?.password?.message}
+										isValid={
+											touchedFields.password &&
+											!errors?.password?.message &&
+											password?.length > 0
+										}
+									/>
+								</FormLabel>
+								<FormLabel>
+									<TextLabel>Confirm Password</TextLabel>
+									{errors?.confirmPassword?.message && (
+										<TextError>{errors.confirmPassword.message}</TextError>
+									)}
+									<TextInput
+										{...register('confirmPassword')}
+										type='password'
+										name='confirmPassword'
+										id='confirmPassword'
+										animation
+										autoComplete='off'
+										hasError={!!errors?.confirmPassword?.message}
+										isValid={
+											touchedFields.confirmPassword &&
+											!errors?.confirmPassword?.message &&
+											confirmPassword?.length > 0
+										}
+									/>
+								</FormLabel>
+								<FormLabel>
+									<CheckboxWrapper>
+										<Checkbox
+											{...register('terms')}
+											sx={{
+												color: !!errors?.confirmPassword?.message
+													? Colors.Red.error
+													: '#3f727a',
+											}}
+											{...label}
+											defaultChecked
 										/>
+										<TextLabel
+											dangerouslySetInnerHTML={{
+												__html: `I agree to the processing of personal data in accordance
+										with the <a href="/privacy">Privacy Policy</a>`,
+											}}
+											size='0.8em'
+										/>
+									</CheckboxWrapper>
+									{errors?.terms?.message && (
+										<TextError>{errors.terms.message}</TextError>
 									)}
-								</motion.p>
-								<p
-									id='parent-modal-description'
-									style={{ fontSize: '1.2rem', textAlign: 'left' }}
+								</FormLabel>
+								<Button
+									sx={{
+										fontSize: '18px',
+										backgroundColor: '#1976d2',
+										color: 'white',
+										padding: '12px 32px',
+										borderRadius: '8px',
+
+										'&:hover': {
+											backgroundColor: '#1565c0',
+											transform: 'translateY(-2px)',
+											boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+										},
+										transition: 'all 0.3s ease',
+										'&:disabled': {
+											backgroundColor: '#e0e0e0',
+											color: '#9e9e9e',
+										},
+									}}
+									variant='contained'
+									type='submit'
+									disabled={isSubmitting}
 								>
-									{isRegisterSuccess ? (
-										<>
-											Redirection to the login page via:{' '}
-											<span style={{ fontSize: '1.5rem', color: '#09b846' }}>
-												{countdown}
-											</span>
-										</>
-									) : (
-										regError
-									)}
-								</p>
-							</motion.div>
-						</Modal>
-					</RegisterForm>
-				</RegisterFormContainer>
-			</RegisterWrapper>
-		</RegisterStyled>
+									{isSubmitting ? 'Signing up...' : 'Sign up'}
+								</Button>
+							</FormContent>
+						</RegisterForm>
+					</RegisterFormContainer>
+				</RegisterWrapper>
+			</RegisterStyled>
+
+			<FormRegisterModal
+				isRegisterSuccess={isRegisterSuccess}
+				isRegisterError={isRegisterError}
+				setRegisterError={setRegisterError}
+				setRegisterSuccess={setRegisterSuccess}
+				countdown={countdown}
+				regError={regError}
+			/>
+		</>
 	)
 }
 
