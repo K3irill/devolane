@@ -1,5 +1,8 @@
 'use client'
-
+import * as React from 'react'
+import CancelIcon from '@mui/icons-material/Cancel'
+import Modal from '@mui/material/Modal'
+import Button from '@mui/material/Button'
 import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -19,8 +22,7 @@ import {
 	LeftBlock,
 	WelcomeTitle,
 } from './styled'
-
-import Button from '@mui/material/Button'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import Checkbox from '@mui/material/Checkbox'
 import TextInput from '@/components/ui/TextInput/TextInput'
 
@@ -30,6 +32,10 @@ import {
 } from '@/lib/schemas/registerSchema'
 
 import { motion } from 'framer-motion'
+import { Colors } from '@/lib/constants/Colors'
+import { useRegisterUserByEmailMutation } from '@/store/services/auth/auth.service'
+import { IUserRegister } from '@/types/user/IUser'
+import { useRouter } from 'next/navigation'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
@@ -47,16 +53,68 @@ const RegisterModule = () => {
 		resolver: yupResolver(registerSchema),
 		mode: 'onChange',
 	})
+	const WAITING_TIME = 5
+	const router = useRouter()
+	const [registerUser] = useRegisterUserByEmailMutation()
+	const [isRegisterSuccess, setRegisterSuccess] = useState<boolean>(false)
+	const [isRegisterError, setRegisterError] = useState<boolean>(false)
+	const [regError, setRegError] = useState<string | null>(null)
+	const [countdown, setCountdown] = useState(WAITING_TIME)
+	const timerRef = React.useRef<ReturnType<typeof setInterval> | undefined>(
+		undefined
+	)
 
-	const onRegisterSubmit: SubmitHandler<RegisterFormSchema> = data => {
-		console.log(data)
-		reset()
+	const onRegisterSubmit: SubmitHandler<
+		RegisterFormSchema | IUserRegister
+	> = async data => {
+		try {
+			setRegisterError(false)
+			setRegError(null)
+			setRegisterSuccess(false)
+			const result = await registerUser(data).unwrap()
+			console.log('Registration successful:', result)
+			setRegisterSuccess(!!result)
+			reset()
+		} catch (error: unknown) {
+			setRegisterSuccess(false)
+			setRegisterError(true)
+			if (error && typeof error === 'object' && 'data' in error) {
+				const apiError = error as { data: { message: string } }
+				setRegError(
+					apiError.data.message || 'Registration failed. Please try again.'
+				)
+			} else {
+				setRegError('Registration failed. Please try again.')
+			}
+			console.error('Registration failed:', error)
+		}
 	}
 
 	useEffect(() => {
-		setFocus('name')
 		setIsLoading(false)
-	}, [])
+		setFocus('name')
+	}, [isLoading])
+
+	useEffect(() => {
+		if (isRegisterSuccess) {
+			timerRef.current = setInterval(() => {
+				setCountdown(prev => {
+					if (prev <= 1) {
+						clearInterval(timerRef.current)
+						router.push('/login')
+						return 0
+					}
+					return prev - 1
+				})
+			}, 1000)
+		}
+
+		return () => {
+			if (timerRef.current) {
+				clearInterval(timerRef.current)
+			}
+		}
+	}, [isRegisterSuccess, router])
 
 	if (isLoading) {
 		return null
@@ -195,6 +253,7 @@ const RegisterModule = () => {
 									type='text'
 									name='name'
 									id='name'
+									autoComplete='off'
 									animation
 									hasError={!!errors?.name?.message}
 									isValid={touchedFields.name && !errors?.name?.message}
@@ -211,6 +270,7 @@ const RegisterModule = () => {
 									name='email'
 									id='email'
 									animation
+									autoComplete='off'
 									hasError={!!errors?.email?.message}
 									isValid={touchedFields.email && !errors?.email?.message}
 								/>
@@ -224,6 +284,7 @@ const RegisterModule = () => {
 									{...register('password')}
 									type='password'
 									name='password'
+									autoComplete='off'
 									id='password'
 									animation
 									hasError={!!errors?.password?.message}
@@ -241,6 +302,7 @@ const RegisterModule = () => {
 									name='confirmPassword'
 									id='confirmPassword'
 									animation
+									autoComplete='off'
 									hasError={!!errors?.confirmPassword?.message}
 									isValid={
 										touchedFields.confirmPassword &&
@@ -250,7 +312,16 @@ const RegisterModule = () => {
 							</FormLabel>
 							<FormLabel>
 								<CheckboxWrapper>
-									<Checkbox {...label} defaultChecked />
+									<Checkbox
+										{...register('terms')}
+										sx={{
+											color: !!errors?.confirmPassword?.message
+												? Colors.Red.error
+												: '#3f727a',
+										}}
+										{...label}
+										defaultChecked
+									/>
 									<TextLabel
 										dangerouslySetInnerHTML={{
 											__html: `I agree to the processing of personal data in accordance
@@ -259,6 +330,9 @@ const RegisterModule = () => {
 										size='0.8em'
 									/>
 								</CheckboxWrapper>
+								{errors?.terms?.message && (
+									<TextError>{errors.terms.message}</TextError>
+								)}
 							</FormLabel>
 							<Button
 								sx={{
@@ -286,6 +360,85 @@ const RegisterModule = () => {
 								{isSubmitting ? 'Signing up...' : 'Sign up'}
 							</Button>
 						</FormContent>
+
+						<Modal
+							open={isRegisterSuccess || isRegisterError}
+							onClose={() => {
+								if (isRegisterError) {
+									setRegisterError(false)
+								} else if (isRegisterSuccess) {
+									setRegisterSuccess(false)
+								}
+							}}
+							aria-labelledby='parent-modal-title'
+							aria-describedby='parent-modal-description'
+						>
+							<motion.div
+								initial={{ transform: 'translateY(-100%) translateX(-50%)' }}
+								animate={{ transform: 'translateY(-50%) translateX(-50%)' }}
+								transition={{ type: 'spring' }}
+								style={{
+									position: 'absolute',
+									top: '50%',
+									left: '50%',
+									transform: 'translate(-50%, -50%)',
+									width: 400,
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									gap: '25px',
+									backgroundColor: `${
+										isRegisterSuccess ? '#1b2b27c4' : '#2f0b0bac'
+									} `,
+									border: `2px solid ${
+										isRegisterSuccess ? '#09b846' : Colors.Red.error
+									}`,
+									borderRadius: '6px',
+									boxShadow: '24px',
+									paddingTop: 16,
+									paddingLeft: 32,
+									paddingRight: 32,
+									paddingBottom: 24,
+								}}
+							>
+								<h2
+									id='parent-modal-title'
+									style={{ fontSize: '1.5rem', textAlign: 'center' }}
+								>
+									{isRegisterSuccess
+										? `Registration was completed successfully`
+										: `Error during registration `}
+								</h2>
+								<motion.p
+									initial={{ scale: 0.3 }}
+									animate={{ scale: 1 }}
+									transition={{ duration: 1 }}
+								>
+									{isRegisterSuccess ? (
+										<CheckCircleIcon sx={{ fontSize: 72, fill: '#09b846' }} />
+									) : (
+										<CancelIcon
+											sx={{ fontSize: 72, fill: `${Colors.Red.error}` }}
+										/>
+									)}
+								</motion.p>
+								<p
+									id='parent-modal-description'
+									style={{ fontSize: '1.2rem', textAlign: 'left' }}
+								>
+									{isRegisterSuccess ? (
+										<>
+											Redirection to the login page via:{' '}
+											<span style={{ fontSize: '1.5rem', color: '#09b846' }}>
+												{countdown}
+											</span>
+										</>
+									) : (
+										regError
+									)}
+								</p>
+							</motion.div>
+						</Modal>
 					</RegisterForm>
 				</RegisterFormContainer>
 			</RegisterWrapper>

@@ -74,10 +74,11 @@ export const HeaderNavList = styled.nav`
 	max-width: fit-content;
 `
 
-export const HeaderNavItem = styled.div`
+export const HeaderNavItem = styled.div<{ isDisabled?: boolean }>`
 	a {
 		color: #86d3f9;
 		font-size: 1.2rem;
+		${p => p.isDisabled && `opacity: 0.5; pointer-events: none;`}
 	}
 `
 

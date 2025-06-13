@@ -14,7 +14,7 @@ import {
 } from './styled'
 import Link from 'next/link'
 
-const Header: FC<IHeader> = ({ type }) => {
+const Header: FC<IHeader> = () => {
 	const [isLoading, setIsLoading] = useState(true)
 	useEffect(() => {
 		setIsLoading(false)
@@ -23,6 +23,13 @@ const Header: FC<IHeader> = ({ type }) => {
 	if (isLoading) {
 		return null
 	}
+
+	const NAV_LINK = [
+		{ id: 0, href: '/', title: 'Main', enable: true },
+		{ id: 1, href: '/news', title: 'News', enable: false },
+		{ id: 2, href: '/contacts', title: 'Contacts', enable: false },
+		{ id: 3, href: '/about-us', title: 'About us', enable: false },
+	]
 
 	return (
 		<HeaderStyled
@@ -39,18 +46,13 @@ const Header: FC<IHeader> = ({ type }) => {
 					</Logo>
 					<HeaderNavigation>
 						<HeaderNavList>
-							<HeaderNavItem>
-								<Link href='/'>Main</Link>
-							</HeaderNavItem>
-							<HeaderNavItem>
-								<Link href='/about-us'>About us</Link>
-							</HeaderNavItem>
-							<HeaderNavItem>
-								<Link href='/news'>News</Link>
-							</HeaderNavItem>
-							<HeaderNavItem>
-								<Link href='/blog'>Blog</Link>
-							</HeaderNavItem>
+							{NAV_LINK.map(item => (
+								<HeaderNavItem isDisabled={!item.enable} key={item.id}>
+									<Link aria-disabled={item.enable} href={item.href}>
+										{item.title}
+									</Link>
+								</HeaderNavItem>
+							))}
 						</HeaderNavList>
 					</HeaderNavigation>
 					<HeaderActivity>
