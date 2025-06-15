@@ -11,6 +11,7 @@ export class LoginResponseDto {
 	token!: string
 	email!: string
 	name!: string
+	username!: string
 }
 
 //Register ----------------|
@@ -18,10 +19,12 @@ export class RegisterDto {
 	email!: string
 	password!: string
 	name!: string
+	username?: string
 }
 
 export class RegisterResponseDto {
 	id!: number
 	email!: string
 	name!: string
+	username!: string
 }

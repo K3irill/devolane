@@ -51,4 +51,34 @@ export class AuthController {
 			}
 		}
 	}
+
+	async refresh(req: Request, res: Response) {
+		try {
+			const token = req.headers.authorization?.split(' ')[1]
+			if (!token) {
+				return res.status(401).json({
+					success: false,
+					message: 'Требуется авторизация',
+				})
+			}
+
+			const result = await this.authService.refresh(token)
+			res.json({
+				success: true,
+				data: result,
+			})
+		} catch (error) {
+			if (error instanceof Error) {
+				res.status(401).json({
+					success: false,
+					message: error.message,
+				})
+			} else {
+				res.status(500).json({
+					success: false,
+					message: 'Внутренняя ошибка сервера',
+				})
+			}
+		}
+	}
 }

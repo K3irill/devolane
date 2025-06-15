@@ -8,6 +8,9 @@ export function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl
 
 	if (publicPaths.includes(pathname)) {
+		if (token) {
+			return NextResponse.redirect(new URL('/', request.url))
+		}
 		return NextResponse.next()
 	}
 

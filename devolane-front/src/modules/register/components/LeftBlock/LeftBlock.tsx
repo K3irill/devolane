@@ -38,6 +38,7 @@ const LeftBlock = () => {
 					fontWeight: 'bold',
 					marginBottom: '2rem',
 					textShadow: '0 0 10px rgba(5, 230, 255, 0.3)',
+					fontFamily: `var(--font-bungee-outline)`,
 				}}
 			>
 				Register in the Devolane

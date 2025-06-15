@@ -26,9 +26,11 @@ import { setUser } from '@/store/slices/userSlice/userSlice'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
+import Loader from '@/components/ui/Loader/Loader'
 
 const LoginModule = () => {
 	const [isLoading, setIsLoading] = useState(true)
+	const [isNavigating, setIsNavigating] = useState(false)
 	const router = useRouter()
 	const {
 		register,
@@ -51,11 +53,15 @@ const LoginModule = () => {
 			const result = await loginUser(data).unwrap()
 
 			if (result.data.token) {
-				localStorage.setItem('token', result.data.token)
-				Cookies.set('token', result.data.token, { expires: 30 })
+				Cookies.set('token', result.data.token, {
+					expires: 30,
+					path: '/',
+					sameSite: 'strict',
+				})
 			}
 			dispatch(setUser(result.data))
-			router.push('/profile')
+			setIsNavigating(true)
+			router.push(`/profile/${result.data.username}`)
 		} catch (error: unknown) {
 			if (error && typeof error === 'object' && 'data' in error) {
 				const apiError = error as { data: { message: string } }
@@ -63,6 +69,7 @@ const LoginModule = () => {
 			} else {
 				setLoginError('An unexpected error occurred. Please try again.')
 			}
+			setIsNavigating(false)
 			console.error('Login failed:', error)
 		}
 	}
@@ -73,7 +80,7 @@ const LoginModule = () => {
 	}, [isLoading])
 
 	if (isLoading) {
-		return null
+		return <Loader />
 	}
 
 	return (
@@ -161,7 +168,7 @@ const LoginModule = () => {
 					</LoginFormContainer>
 				</LoginWrapper>
 			</LoginStyled>
-
+			{(isSubmitting || isNavigating) && <Loader />}
 			<FormLoginModal setLoginError={setLoginError} loginError={loginError} />
 		</>
 	)

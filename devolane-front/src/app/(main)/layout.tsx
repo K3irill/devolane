@@ -1,15 +1,25 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Bungee_Outline, Bungee_Shade, Gugi } from 'next/font/google'
 import '@/styles/globals.scss'
 import { Providers } from '../../providers/providers'
+import Header from '@/components/Header/Header'
+import { EnHeaderType } from '@/components/Header/Header.types'
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
+const bungeeOutline = Bungee_Outline({
+	variable: '--font-bungee-outline',
+	weight: '400',
 	subsets: ['latin'],
 })
 
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
+const bungeeShade = Bungee_Shade({
+	variable: '--font-bungee-shade',
+	weight: '400',
+	subsets: ['latin'],
+})
+
+const gugi = Gugi({
+	variable: '--font-gugi-sans',
+	weight: '400',
 	subsets: ['latin'],
 })
 
@@ -25,8 +35,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${geistSans.variable} ${geistMono.variable}`}>
-				<Providers>{children}</Providers>
+			<body
+				className={` ${bungeeOutline.variable}  ${bungeeShade.variable}  ${gugi.variable}  `}
+			>
+				<Providers>
+					<Header type={EnHeaderType.Main} />
+					{children}
+				</Providers>
 			</body>
 		</html>
 	)

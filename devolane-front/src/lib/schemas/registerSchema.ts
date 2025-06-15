@@ -21,6 +21,27 @@ export const registerSchema = yup.object({
 		.min(3, 'Your name must be at least 3 characters long')
 		.max(12, 'Your name must be no more than 12 characters long'),
 
+	username: yup
+		.string()
+		.notRequired()
+		.nullable()
+		.transform(value => (value === '' ? null : value))
+		.matches(
+			/^[a-zA-Z0-9]+$/g,
+			'Your username must contain only letters and numbers'
+		)
+		.test(
+			'has-min-letters',
+			'Your username must contain at least 6 letters',
+			value => {
+				if (!value) return true
+				const letterCount = (value.match(/[a-zA-Z]/g) || []).length
+				return letterCount >= 6
+			}
+		)
+		.min(6, 'Your username must be at least 6 characters long')
+		.max(12, 'Your username must be no more than 12 characters long'),
+
 	email: yup
 		.string()
 		.required('Enter your email address')

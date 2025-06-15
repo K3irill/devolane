@@ -44,5 +44,6 @@ router.post(
 )
 
 router.post('/login', authController.login.bind(authController))
+router.post('/refresh', authController.refresh.bind(authController))
 
 export { router as authRouter }

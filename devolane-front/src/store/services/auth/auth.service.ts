@@ -4,38 +4,7 @@ import {
 	IUserRegisterResponse,
 } from '@/types/user/IUser'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { axiosInstance } from '@/lib/axios'
-import { AxiosError } from 'axios'
-
-interface QueryArgs {
-	url: string
-	method: string
-	body?: Record<string, unknown>
-	params?: Record<string, unknown>
-}
-
-// Create a custom base query using axios
-const axiosBaseQuery =
-	() =>
-	async ({ url, method, body, params }: QueryArgs) => {
-		try {
-			const result = await axiosInstance({
-				url,
-				method,
-				data: body,
-				params,
-			})
-			return { data: result.data }
-		} catch (error) {
-			const axiosError = error as AxiosError
-			return {
-				error: {
-					status: axiosError.response?.status,
-					data: axiosError.response?.data || axiosError.message,
-				},
-			}
-		}
-	}
+import { axiosBaseQuery } from '../axiosBaseQuery'
 
 export const authApi = createApi({
 	reducerPath: 'authApi',
@@ -65,13 +34,14 @@ export const authApi = createApi({
 		}),
 
 		registerUserByEmail: builder.mutation<IUserRegisterResponse, IUserLogin>({
-			query: ({ name, email, password }) => ({
+			query: ({ name, email, password, username }) => ({
 				url: `/auth/register`,
 				method: 'POST',
 				body: {
 					name,
 					email,
 					password,
+					username,
 				},
 				params: {},
 			}),
