@@ -6,7 +6,6 @@ const PORT = process.env.PORT || 3333
 
 const start = async () => {
 	try {
-		// Проверяем соединение с базой данных
 		await prisma.$connect()
 		console.log('☑️ Database connected ☑️')
 
@@ -19,7 +18,6 @@ const start = async () => {
 	}
 }
 
-// Обработка завершения работы
 process.on('SIGINT', async () => {
 	await prisma.$disconnect()
 	process.exit(0)

@@ -28,6 +28,7 @@ const LeftBlock = () => {
 				}}
 				style={{
 					background: 'linear-gradient(45deg, #05e6ff, #ff00e6c3)',
+					fontFamily: `var(--font-bungee-outline)`,
 					WebkitBackgroundClip: 'text',
 					WebkitTextFillColor: 'transparent',
 					fontSize: '2.5rem',

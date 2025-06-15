@@ -1,23 +1,15 @@
 'use client'
 
 import React, { FC, useState, useEffect } from 'react'
-import type { IHeader } from './Header.d'
+import { EnHeaderType, type IHeader } from './Header.types'
 import Container from '@/components/Container/Container'
-import {
-	HeaderContent,
-	HeaderStyled,
-	Logo,
-	HeaderNavigation,
-	HeaderActivity,
-	HeaderNavItem,
-	HeaderNavList,
-} from './styled'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { HeaderContent, HeaderStyled } from './styled'
+import HeaderAuthType from './components/HeaderAuthType/HeaderAuthType'
+import HeaderMainType from './components/HeaderMainType/HeaderMainType'
 
-const Header: FC<IHeader> = () => {
-	const pathname = usePathname()
+const Header: FC<IHeader> = ({ type }) => {
 	const [isLoading, setIsLoading] = useState(true)
+
 	useEffect(() => {
 		setIsLoading(false)
 	}, [])
@@ -26,44 +18,17 @@ const Header: FC<IHeader> = () => {
 		return null
 	}
 
-	const NAV_LINK = [
-		{ id: 0, href: '/', title: 'Main', enable: true },
-		{ id: 1, href: '/news', title: 'News', enable: false },
-		{ id: 2, href: '/contacts', title: 'Contacts', enable: false },
-		{ id: 3, href: '/about-us', title: 'About us', enable: false },
-	]
-
 	return (
 		<HeaderStyled
 			initial={{ opacity: 0.5, transform: 'translateY(-100%)' }}
 			animate={{ opacity: 1, transform: 'translateY(0px)' }}
 			transition={{ duration: 1 }}
+			type={type}
 		>
 			<Container>
 				<HeaderContent>
-					<Logo>
-						<Link href='/'>
-							<span>Devo</span>lane
-						</Link>
-					</Logo>
-					<HeaderNavigation>
-						<HeaderNavList>
-							{NAV_LINK.map(item => (
-								<HeaderNavItem isDisabled={!item.enable} key={item.id}>
-									<Link aria-disabled={item.enable} href={item.href}>
-										{item.title}
-									</Link>
-								</HeaderNavItem>
-							))}
-						</HeaderNavList>
-					</HeaderNavigation>
-					<HeaderActivity>
-						{pathname === '/login' ? (
-							<Link href='/register'>Sign Up</Link>
-						) : (
-							<Link href='/login'>Already have an account?</Link>
-						)}
-					</HeaderActivity>
+					{type === EnHeaderType.Auth && <HeaderAuthType />}
+					{type === EnHeaderType.Main && <HeaderMainType />}
 				</HeaderContent>
 			</Container>
 		</HeaderStyled>

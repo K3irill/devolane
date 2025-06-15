@@ -1,23 +1,56 @@
 import { glassGradientAnimation } from '@/styles/keyframes'
 import { motion } from 'framer-motion'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
+import { EnHeaderType } from './Header.types'
 
-export const HeaderStyled = styled(motion.div)`
+const mainHeaderAnimation = keyframes`
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+`
+
+export const HeaderStyled = styled(motion.div)<{ type?: EnHeaderType }>`
 	border-bottom: 1px solid rgba(122, 237, 255, 0.15);
 	backdrop-filter: blur(16px);
 	-webkit-backdrop-filter: blur(16px);
 	box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.37);
 
-	background: linear-gradient(
-		135deg,
-		rgba(0, 68, 255, 0.138),
-		rgba(234, 0, 255, 0.083),
-		rgba(0, 191, 255, 0.152),
-		rgba(0, 255, 115, 0.077)
-	);
+	${p =>
+		p.type === EnHeaderType.Auth &&
+		css`
+			background: linear-gradient(
+				135deg,
+				rgba(0, 68, 255, 0.138),
+				rgba(234, 0, 255, 0.083),
+				rgba(0, 191, 255, 0.152),
+				rgba(0, 255, 115, 0.077)
+			);
+			animation: ${glassGradientAnimation} 20s ease-in-out infinite;
+		`}
+
+	${p =>
+		p.type === EnHeaderType.Main &&
+		css`
+			background: linear-gradient(
+				135deg,
+				rgba(255, 0, 128, 0.08),
+				rgba(0, 255, 255, 0.05),
+				rgba(128, 0, 255, 0.09),
+				rgba(255, 128, 0, 0.04)
+			);
+			background-size: 300% 300%;
+			animation: ${mainHeaderAnimation} 15s ease infinite;
+		`}
+  	
 	background-size: 400% 400%;
-	animation: ${glassGradientAnimation} 20s ease-in-out infinite;
-	padding: 20px;
+
+	padding: 10px;
 `
 
 export const HeaderContent = styled.div`
@@ -40,9 +73,11 @@ export const logoColorAnimation = keyframes`
 `
 
 export const Logo = styled.div`
-	font-size: 1.5rem;
+	font-size: 3rem;
 	position: relative;
 	transition: transform ease 0.4s;
+	font-family: var(--font-bungee-shade);
+	font-weight: 700;
 	span {
 		position: relative;
 		color: #db0172;

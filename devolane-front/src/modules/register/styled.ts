@@ -52,6 +52,7 @@ export const FormLabel = styled.label`
 	flex-direction: column;
 	gap: 15px;
 	width: 100%;
+	position: relative;
 `
 
 export const TextError = styled.span`
@@ -62,6 +63,13 @@ export const TextError = styled.span`
 export const TextLabel = styled.span<{ size?: string }>`
 	font-weight: 500;
 	font-size: ${p => p.size || `1.3rem`};
+`
+export const TextHint = styled.span<{ size?: string }>`
+	font-weight: 400;
+	color: #01e0b04b;
+	font-size: ${p => p.size || `0.6rem`};
+	position: absolute;
+	top: 20px;
 `
 
 export const CheckboxWrapper = styled.div`

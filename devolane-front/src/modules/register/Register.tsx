@@ -16,6 +16,7 @@ import {
 	TextError,
 	TextLabel,
 	CheckboxWrapper,
+	TextHint,
 } from './styled'
 
 import Checkbox from '@mui/material/Checkbox'
@@ -51,7 +52,7 @@ const RegisterModule = () => {
 		mode: 'onChange',
 	})
 
-	const { confirmPassword, password, name, email } = watch()
+	const { confirmPassword, password, name, email, username } = watch()
 
 	const router = useRouter()
 	const [registerUser] = useRegisterUserByEmailMutation()
@@ -67,6 +68,7 @@ const RegisterModule = () => {
 		RegisterFormSchema | IUserRegister
 	> = async data => {
 		try {
+			console.log('Sending registration data:', data)
 			setRegisterError(false)
 			setRegError(null)
 			setRegisterSuccess(false)
@@ -98,8 +100,12 @@ const RegisterModule = () => {
 			timerRef.current = setInterval(() => {
 				setCountdown(prev => {
 					if (prev <= 3) {
-						clearInterval(timerRef.current)
 						router.push('/login')
+					}
+
+					if (prev <= 1) {
+						clearInterval(timerRef.current)
+
 						return 0
 					}
 					return prev - 1
@@ -133,7 +139,7 @@ const RegisterModule = () => {
 							<FormTitle>Signing Up</FormTitle>
 							<FormContent>
 								<FormLabel>
-									<TextLabel>Name</TextLabel>
+									<TextLabel>Name*</TextLabel>
 									{errors?.name?.message && (
 										<TextError>{errors.name.message}</TextError>
 									)}
@@ -144,6 +150,7 @@ const RegisterModule = () => {
 										id='name'
 										autoComplete='off'
 										animation
+										placeholder='Enter your name or nickname'
 										hasError={!!errors?.name?.message}
 										isValid={
 											touchedFields.name &&
@@ -153,7 +160,36 @@ const RegisterModule = () => {
 									/>
 								</FormLabel>
 								<FormLabel>
-									<TextLabel>Email</TextLabel>
+									<TextLabel>Username</TextLabel>
+									<TextHint>not required</TextHint>
+									{!!username &&
+										username.length > 0 &&
+										errors?.username?.message && (
+											<TextError>{errors.username.message}</TextError>
+										)}
+									<TextInput
+										{...register('username')}
+										type='text'
+										name='username'
+										id='username'
+										autoComplete='off'
+										animation
+										placeholder='Enter your unique @username'
+										hasError={
+											!!username &&
+											username.length > 0 &&
+											!!errors?.username?.message
+										}
+										isValid={
+											touchedFields.username &&
+											!errors?.username?.message &&
+											!!username &&
+											username?.length > 0
+										}
+									/>
+								</FormLabel>
+								<FormLabel>
+									<TextLabel>Email*</TextLabel>
 									{errors?.email?.message && (
 										<TextError>{errors.email.message}</TextError>
 									)}
@@ -164,6 +200,7 @@ const RegisterModule = () => {
 										id='email'
 										animation
 										autoComplete='off'
+										placeholder='Enter your email address'
 										hasError={!!errors?.email?.message}
 										isValid={
 											touchedFields.email &&
@@ -173,7 +210,7 @@ const RegisterModule = () => {
 									/>
 								</FormLabel>
 								<FormLabel>
-									<TextLabel>Password</TextLabel>
+									<TextLabel>Password*</TextLabel>
 									{errors?.password?.message && (
 										<TextError>{errors.password.message}</TextError>
 									)}
@@ -185,6 +222,7 @@ const RegisterModule = () => {
 										id='password'
 										animation
 										hasError={!!errors?.password?.message}
+										placeholder='Enter strong password'
 										isValid={
 											touchedFields.password &&
 											!errors?.password?.message &&
@@ -193,7 +231,7 @@ const RegisterModule = () => {
 									/>
 								</FormLabel>
 								<FormLabel>
-									<TextLabel>Confirm Password</TextLabel>
+									<TextLabel>Confirm Password*</TextLabel>
 									{errors?.confirmPassword?.message && (
 										<TextError>{errors.confirmPassword.message}</TextError>
 									)}
@@ -204,6 +242,7 @@ const RegisterModule = () => {
 										id='confirmPassword'
 										animation
 										autoComplete='off'
+										placeholder='Repeat your password'
 										hasError={!!errors?.confirmPassword?.message}
 										isValid={
 											touchedFields.confirmPassword &&
