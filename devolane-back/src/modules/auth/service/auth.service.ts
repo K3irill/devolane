@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Role } from '@prisma/client'
 import {
 	LoginDto,
 	RegisterDto,
@@ -8,6 +8,7 @@ import {
 import * as bcrypt from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
 import { createUniqueUname } from '../../../core/utils/createUniqeUname'
+import { IUserRole } from '../../../shared/types/user.type'
 
 export class AuthService {
 	private prisma: PrismaClient
@@ -46,6 +47,15 @@ export class AuthService {
 			name: user.name as string,
 			username: user.username as string,
 			token,
+			age: user.age ?? undefined,
+			photo: user.photo ?? undefined,
+			position: user.position ?? undefined,
+			city: user.city ?? undefined,
+			bio: user.bio ?? undefined,
+			description: user.description ?? undefined,
+			role: user.role as unknown as IUserRole,
+			createdAt: user.createdAt ?? undefined,
+			updatedAt: user.updatedAt ?? undefined,
 		}
 	}
 

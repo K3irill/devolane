@@ -12,6 +12,18 @@
 	}
 }
 
+@keyframes diagonalGradient {
+	0% {
+		background-position: 0% 0%;
+	}
+	50% {
+		background-position: 100% 100%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}
+
 html,
 body {
 	max-width: 100vw;
@@ -22,7 +34,15 @@ body {
 
 body {
 	color: var(--foreground);
-	background: var(--background);
+	background: linear-gradient(
+		135deg,
+		rgba(0, 68, 255, 0.1),
+		rgba(234, 0, 255, 0.05),
+		rgba(0, 191, 255, 0.08),
+		rgba(0, 255, 115, 0.04)
+	);
+	background-size: 400% 400%;
+	animation: diagonalGradient 60s ease infinite;
 	font-family: var(--font-gugi-sans), Arial, Helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

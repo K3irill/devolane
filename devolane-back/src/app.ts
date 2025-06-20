@@ -14,11 +14,24 @@ app.use(
 		allowedHeaders: ['Content-Type', 'Authorization'],
 	})
 )
-app.use(helmet())
+app.use(
+	helmet({
+		crossOriginResourcePolicy: { policy: 'cross-origin' },
+	})
+)
 app.use(express.json())
 
 //Routes
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
+app.use(
+	'/uploads',
+	express.static('uploads', {
+		setHeaders: (res, path) => {
+			res.set('Cross-Origin-Resource-Policy', 'cross-origin')
+			res.set('Access-Control-Allow-Origin', '*')
+		},
+	})
+)
 
 export { app }

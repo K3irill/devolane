@@ -110,3 +110,12 @@ export const WelcomeTitle = styled(motion.h2)`
 	font-size: 48px;
 	font-weight: 700;
 `
+export const ImgWrap = styled(motion.div)`
+	width: 100px;
+	height: 80px;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+`

@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import StackedLineChartIcon from '@mui/icons-material/StackedLineChart'
+import Diversity1Icon from '@mui/icons-material/Diversity1'
 import { BoxWrapper, LeftBlockStyled, WelcomeTitle } from '../../styled'
 
 const LeftBlock = () => {
@@ -61,7 +61,7 @@ const LeftBlock = () => {
 						},
 					}}
 				>
-					<StackedLineChartIcon sx={{ fontSize: 272 }} />
+					<Diversity1Icon sx={{ fontSize: 272 }} />
 				</motion.div>
 			</BoxWrapper>
 		</LeftBlockStyled>

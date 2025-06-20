@@ -15,7 +15,7 @@ export interface IUser {
 	haveJob?: boolean
 	status?: string
 	username: string
-	image?: IUserImage
+	photo?: string
 	createdAt?: string
 }
 
@@ -49,4 +49,15 @@ export type IUserLoginResponse = {
 export type IUserFullResponse = {
 	success: string
 	data: IUser
+}
+
+export type IUserUpdateRequest = {
+	username: string
+	name?: string
+	age?: Date
+	photo?: File
+	position?: string
+	city?: string
+	bio?: string
+	description?: string
 }

@@ -14,15 +14,23 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String?  @unique
-  password  String
-  name      String?
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  skills    Skill[]
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  username    String?   @unique
+  password    String
+  name        String?
+  fullName    String?
+  phone       Int?
+  age         DateTime?
+  photo       String?
+  position    String?
+  city        String?
+  bio         String?
+  description String?
+  role        Role      @default(USER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  skills      Skill[]
 }
 
 model Skill {
@@ -36,8 +44,9 @@ model Skill {
   updatedAt DateTime @updatedAt
 }
 
-// Роли пользователей
 enum Role {
-  USER
   ADMIN
+  MODERATOR
+  USER
+  CREATOR
 }

@@ -1,5 +1,6 @@
 import { glassBackground } from '@/styles/mixins'
-import styled from 'styled-components'
+import { motion } from 'framer-motion'
+import styled, { css } from 'styled-components'
 
 export const ProfileUserInfoWrapper = styled.div`
 	${glassBackground};
@@ -8,22 +9,43 @@ export const ProfileUserInfoWrapper = styled.div`
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(8px);
 	transition: transform 0.3s ease;
+	position: relative;
+	overflow: hidden;
 `
 
-export const ProfileUserContent = styled.div`
+export const UserProfileError = styled.div<{ background?: string }>`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background:  ${p => p.background || `#d9000045;`}
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+`
+
+export const ProfileUserContent = styled(motion.div)`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 2.5rem;
 	padding: 1rem;
 	height: 100%;
+	position: relative;
 `
 
-export const ProfileUserAvatarWrap = styled.div`
+export const ProfileUserAvatarWrap = styled.div<{ onClick?: () => void }>`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	position: relative;
+	${p =>
+		p.onClick &&
+		css`
+			cursor: pointer;
+		`}
 
 	&::after {
 		content: '';
@@ -72,45 +94,95 @@ export const ProfileUserAvatar = styled.div`
 	}
 `
 
-export const ProfileInfo = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
+export const UpperPhotoWrap = styled.div<{ withBlur?: boolean }>`
 	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	border-radius: 50%;
+	overflow: hidden;
+	${p => !p.withBlur && `backdrop-filter: blur(2px); background: #000000c3;`}
+`
+
+export const ProfileInfo = styled.form`
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 2rem;
+	width: 100%;
+	background: #736d7600;
+	padding: 1rem;
+	border-radius: 12px;
+	backdrop-filter: blur(20px);
 `
 
 export const InfoItem = styled.div`
 	display: flex;
-	flex-direction: column;
+	align-items: center;
+	min-width: 220px;
+	width: 100%;
 	gap: 0.75rem;
-	padding: 1.25rem;
-	border-radius: 16px;
-	transition: all 0.3s ease;
-	background: rgba(255, 255, 255, 0.03);
-	border: 1px solid rgba(255, 255, 255, 0.05);
+	padding: 0.5rem 0;
+	background: none;
+	border-radius: 0;
+	box-shadow: none;
+	border: none;
+	position: relative;
+`
 
-	&:hover {
-		background: rgba(255, 255, 255, 0.08);
-		transform: translateX(5px);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	}
+export const InfoIcon = styled.span`
+	display: flex;
+	align-items: center;
+	color: #b0b8c1;
+	font-size: 1.2rem;
+	min-width: 24px;
+	min-height: 24px;
 `
 
 export const InfoLabel = styled.span`
-	font-size: 0.9rem;
-	font-weight: 600;
-	color: #86d3f9;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	opacity: 0.9;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	font-size: 0.8rem;
+	color: #b0b8c1;
+	font-weight: 400;
+	margin-right: 0.5rem;
+	letter-spacing: 0.5px;
+	text-wrap: nowrap;
+`
+
+export const InfoInput = styled.input`
+	border: none;
+	background: transparent;
+	border-bottom: 1px solid #7f9b9a34;
+	width: 100%;
+	font-size: 18px;
+
+	&:focus {
+		border-bottom: 2px solid #7f9b9a34;
+		outline: none;
+	}
 `
 
 export const InfoValue = styled.span`
-	font-size: 1.2rem;
-	color: #ffffff;
+	font-size: 14px;
+	color: #fff;
 	font-weight: 500;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	letter-spacing: 0.5px;
-	line-height: 1.4;
+	word-break: break-all;
+`
+
+export const SettingsBtn = styled(motion.div)`
+	border-radius: 50%;
+	max-width: 40px;
+	max-height: 40px;
+	min-width: 40px;
+	min-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	cursor: pointer;
+	position: absolute;
+	z-index: 3;
+	right: 0;
 `

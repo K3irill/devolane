@@ -59,6 +59,13 @@ const LoginModule = () => {
 					sameSite: 'strict',
 				})
 			}
+			if (result.data.username) {
+				Cookies.set('username', result.data.username, {
+					expires: 30,
+					path: '/',
+					sameSite: 'strict',
+				})
+			}
 			dispatch(setUser(result.data))
 			setIsNavigating(true)
 			router.push(`/profile/${result.data.username}`)

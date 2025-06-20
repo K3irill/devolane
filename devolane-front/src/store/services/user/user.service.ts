@@ -19,7 +19,18 @@ export const userApi = createApi({
 				params: {},
 			}),
 		}),
+
+		updateUserData: builder.mutation<IUserFullResponse, FormData>({
+			query: formData => ({
+				url: `/user/update-user-data`,
+				method: 'PATCH',
+				body: formData,
+				isFormData: true,
+				params: {},
+			}),
+		}),
 	}),
 })
 
-export const { useGetUserByUsernameMutation } = userApi
+export const { useGetUserByUsernameMutation, useUpdateUserDataMutation } =
+	userApi

@@ -1,17 +1,30 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, FC } from 'react'
+import { Provider, useDispatch } from 'react-redux'
 import { store } from '@/store/store'
-import { Provider } from 'react-redux'
+import { setUser } from '@/store/slices/userSlice/userSlice'
+import { IUser } from '@/types/user/IUser'
 
 interface ProvidersProps {
+	user?: IUser
 	children: ReactNode
 }
 
-export function Providers({ children }: ProvidersProps) {
-	return (
-		<>
-			<Provider store={store}>{children}</Provider>
-		</>
-	)
+export const Providers: FC<ProvidersProps> = ({ user, children }) => (
+	<Provider store={store}>
+		<ProvidersInner user={user}>{children}</ProvidersInner>
+	</Provider>
+)
+
+const ProvidersInner: FC<ProvidersProps> = ({ user, children }) => {
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		if (user) {
+			dispatch(setUser(user))
+		}
+	}, [user, dispatch])
+
+	return <>{children}</>
 }

@@ -1,7 +1,22 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+	images: {
+		domains: ['localhost'],
+	},
+	async headers() {
+		return [
+			{
+				source: '/(.*)',
+				headers: [
+					{
+						key: 'Content-Security-Policy',
+						value: 'img-src * blob: data:;',
+					},
+				],
+			},
+		]
+	},
+}
 
-export default nextConfig;
+export default nextConfig
