@@ -9,7 +9,7 @@ export interface IUser {
 	email: string | null
 	fullName?: string
 	phone?: string
-	age?: number
+	age?: string
 	gender?: string
 	position?: string
 	haveJob?: boolean

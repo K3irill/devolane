@@ -20,7 +20,8 @@ model User {
   password    String
   name        String?
   fullName    String?
-  phone       Int?
+  phone       String?
+  gender      Gender?
   age         DateTime?
   photo       String?
   position    String?
@@ -49,4 +50,9 @@ enum Role {
   MODERATOR
   USER
   CREATOR
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }

@@ -1,6 +1,7 @@
 import { IUserFullResponse } from '@/types/user/IUser'
 import { axiosInstance } from '../axios'
-import Cookies from 'js-cookie'
+import { cookies } from 'next/headers'
+
 export async function getCurrentUser(
 	username: string
 ): Promise<IUserFullResponse | null> {
@@ -11,7 +12,7 @@ export async function getCurrentUser(
 			{
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Bearer ${Cookies.get('token')}`,
+					Authorization: `Bearer ${(await cookies()).get('token')?.value}`,
 				},
 			}
 		)

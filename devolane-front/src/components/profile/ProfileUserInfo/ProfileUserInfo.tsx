@@ -14,6 +14,8 @@ import {
 	UserProfileError,
 	InfoIcon,
 	InfoInput,
+	StyledDatePicker,
+	InfoInputSelect,
 } from './styled'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -21,8 +23,12 @@ import { ProfileUserInfoProps } from './types'
 import { useHandleLogOut } from '@/lib/utils/handleLogOut'
 import SettingsIcon from '@mui/icons-material/Settings'
 import UpgradeIcon from '@mui/icons-material/Upgrade'
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest'
 import { motion } from 'framer-motion'
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+
 import { useUpdateUserDataMutation } from '@/store/services/user/user.service'
 import Loader from '@/components/ui/Loader/Loader'
 import ErrorIcon from '@mui/icons-material/Error'
@@ -41,12 +47,50 @@ import CakeIcon from '@mui/icons-material/Cake'
 import WcIcon from '@mui/icons-material/Wc'
 import WorkIcon from '@mui/icons-material/Work'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import PhoneInput from 'react-ui-phone-input'
+import 'react-ui-phone-input/lib/style.css'
 
 import {
 	UserProfileSchema,
 	userProfileSchema,
 } from '@/lib/schemas/userProfileSchema'
 import { TextError } from '@/modules/login/styled'
+
+// Вспомогательные компоненты
+const ErrorMessage = ({ message }: { message?: string }) =>
+	message && (
+		<TextError
+			style={{
+				position: 'absolute',
+				top: '100%',
+				right: 0,
+				fontSize: '10px',
+			}}
+		>
+			{message}
+		</TextError>
+	)
+
+const InfoField = ({
+	icon: Icon,
+	label,
+	children,
+	error,
+}: {
+	icon: React.ComponentType
+	label: string
+	children: React.ReactNode
+	error?: string
+}) => (
+	<InfoItem>
+		<InfoIcon>
+			<Icon />
+		</InfoIcon>
+		<InfoLabel>{label}</InfoLabel>
+		{children}
+		<ErrorMessage message={error} />
+	</InfoItem>
+)
 
 const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 	user,
@@ -57,6 +101,7 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 	const dispatchRedux = useDispatch()
 	const handleLogOut = useHandleLogOut()
 	const photoInputRef = useRef<HTMLInputElement>(null)
+	const formRef = useRef<HTMLFormElement>(null)
 
 	useEffect(() => {
 		if (state.settingSuccess) {
@@ -86,6 +131,7 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 	const {
 		register,
 		handleSubmit,
+		setValue,
 		formState: { errors },
 	} = useForm<UserProfileSchema>({
 		resolver: yupResolver(userProfileSchema),
@@ -94,14 +140,12 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 			name: user.name || '',
 			phone: user.phone ?? undefined,
 			age: user.age ?? undefined,
-			gender:
-				(user.gender as 'male' | 'female' | 'other' | undefined) ?? undefined,
+			gender: (user.gender as 'male' | 'female' | undefined) ?? undefined,
 			position: user.position ?? undefined,
 		},
 	})
 
 	const saveSettings: SubmitHandler<UserProfileSchema> = async data => {
-		console.log(data)
 		if (data) {
 			dispatch({ type: 'SET_SETTING_SUCCESS', payload: false })
 			dispatch({ type: 'SET_SETTING_ERROR', payload: false })
@@ -122,15 +166,8 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 					setUser({
 						...user,
 						...data,
+						age: typeof data.age === 'string' ? data.age : undefined,
 						phone: data.phone ?? undefined,
-						age:
-							typeof data.age === 'number'
-								? data.age
-								: data.age !== undefined &&
-								  data.age !== null &&
-								  !isNaN(Number(data.age))
-								? Number(data.age)
-								: undefined,
 						gender: data.gender ?? undefined,
 						position: data.position ?? undefined,
 						photo: updatedPhoto,
@@ -144,312 +181,201 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 			dispatch({ type: 'SET_SETTING_ERROR', payload: true })
 		}
 	}
-	const settingRender = () => {
-		return (
-			<>
-				{isLoading && <Loader />}
-				<SettingsBtn
-					onClick={() => dispatch({ type: 'SET_SETTING_MODE', payload: false })}
-					initial={{ rotate: 0 }}
-					whileHover={{ opacity: 0.6 }}
-					transition={{
-						duration: 0.8,
-						rotate: {
-							duration: 0,
-						},
-					}}
-				>
-					<SettingsSuggestIcon />
-				</SettingsBtn>
-				<ProfileUserAvatarWrap onClick={openPhotoInput}>
-					<input
-						style={{ display: 'none' }}
-						ref={photoInputRef}
-						type='file'
-						name='userPhoto'
-						id='userPhoto'
-						onChange={e =>
-							dispatch({
-								type: 'SET_DOWNLOADED_PHOTO',
-								payload: e.target.files?.[0],
-							})
-						}
-					/>
-					<ProfileUserAvatar>
-						<img
-							src={
-								state.photoPreview ||
-								getUserPhotoUrl(
-									typeof user.photo === 'string' ? user.photo : undefined
-								)
-							}
-							alt={'User avatar'}
-						/>
-						<UpperPhotoWrap withBlur={!!state.photoPreview}>
-							<motion.span
-								animate={{ scale: [1.1, 1, 1.1] }}
-								transition={{
-									scale: {
-										duration: 3,
-										repeat: Infinity,
-									},
-								}}
-							>
-								<UpgradeIcon
-									sx={{ fontSize: 72, opacity: state.photoPreview ? 0.2 : 1 }}
-								/>
-							</motion.span>
-						</UpperPhotoWrap>
-					</ProfileUserAvatar>
-				</ProfileUserAvatarWrap>
 
-				<div>Hi there!</div>
-				<ProfileInfo onSubmit={handleSubmit(saveSettings)}>
-					<InfoItem>
-						<InfoIcon>
-							<AccountCircleIcon />
-						</InfoIcon>
-						<InfoLabel>Full Name</InfoLabel>
-						<InfoInput {...register('name')} type='text' />
-						{errors.name && (
-							<TextError
-								style={{
-									position: 'absolute',
-									top: '100%',
-									right: 0,
-									fontSize: '10px',
-								}}
-							>
-								{errors.name.message}
-							</TextError>
-						)}
-					</InfoItem>
-					<InfoItem>
-						<InfoIcon>
-							<AlternateEmailIcon />
-						</InfoIcon>
-						<InfoLabel>@Username</InfoLabel>
-						<InfoValue>{user.username}</InfoValue>
-					</InfoItem>
-					<InfoItem>
-						<InfoIcon>
-							<EmailIcon />
-						</InfoIcon>
-						<InfoLabel>Email</InfoLabel>
-						<InfoValue>{user.email}</InfoValue>
-					</InfoItem>
-					<InfoItem>
-						<InfoIcon>
-							<PhoneIcon />
-						</InfoIcon>
-						<InfoLabel>Phone</InfoLabel>
-						<InfoInput {...register('phone')} type='text' />
-						{errors.phone && (
-							<TextError
-								style={{
-									position: 'absolute',
-									top: '100%',
-									right: 0,
-									fontSize: '10px',
-								}}
-							>
-								{errors.phone.message}
-							</TextError>
-						)}
-					</InfoItem>
-					<InfoItem>
-						<InfoIcon>
-							<CakeIcon />
-						</InfoIcon>
-						<InfoLabel>Age</InfoLabel>
-						<InfoInput {...register('age')} type='text' />
-						{errors.age && (
-							<TextError
-								style={{
-									position: 'absolute',
-									top: '100%',
-									right: 0,
-									fontSize: '10px',
-								}}
-							>
-								{errors.age.message}
-							</TextError>
-						)}
-					</InfoItem>
-					<InfoItem>
-						<InfoIcon>
-							<WcIcon />
-						</InfoIcon>
-						<InfoLabel>Gender</InfoLabel>
-						<InfoInput {...register('gender')} type='text' />
-						{errors.gender && (
-							<TextError
-								style={{
-									position: 'absolute',
-									top: '100%',
-									right: 0,
-									fontSize: '10px',
-								}}
-							>
-								{errors.gender.message}
-							</TextError>
-						)}
-					</InfoItem>
-					<InfoItem>
-						<InfoIcon>
-							<WorkIcon />
-						</InfoIcon>
-						<InfoLabel>Position</InfoLabel>
-						<InfoInput {...register('position')} type='text' />
-						{errors.position && (
-							<TextError
-								style={{
-									position: 'absolute',
-									top: '100%',
-									right: 0,
-									fontSize: '10px',
-								}}
-							>
-								{errors.position.message}
-							</TextError>
-						)}
-					</InfoItem>
-					{user.createdAt && (
-						<InfoItem>
-							<InfoIcon>
-								<CalendarMonthIcon />
-							</InfoIcon>
-							<InfoLabel>Register date</InfoLabel>
-							<InfoValue>{formatDate(user.createdAt)}</InfoValue>
-						</InfoItem>
-					)}
-					{isMaster && <Button type='submit'>Save changes</Button>}
-				</ProfileInfo>
-			</>
-		)
+	const handleSaveChanges = () => {
+		if (formRef.current) {
+			formRef.current.requestSubmit()
+		}
 	}
+
+	const renderAvatar = (isEditable = false) => (
+		<ProfileUserAvatarWrap onClick={isEditable ? openPhotoInput : undefined}>
+			{isEditable && (
+				<input
+					style={{ display: 'none' }}
+					ref={photoInputRef}
+					type='file'
+					name='userPhoto'
+					id='userPhoto'
+					onChange={e =>
+						dispatch({
+							type: 'SET_DOWNLOADED_PHOTO',
+							payload: e.target.files?.[0],
+						})
+					}
+				/>
+			)}
+			<ProfileUserAvatar>
+				<img
+					src={
+						state.photoPreview ||
+						getUserPhotoUrl(
+							typeof user.photo === 'string' ? user.photo : undefined
+						)
+					}
+					alt={'User avatar'}
+				/>
+				{isEditable && (
+					<UpperPhotoWrap withBlur={!!state.photoPreview}>
+						<motion.span
+							animate={{ scale: [1.1, 1, 1.1] }}
+							transition={{
+								scale: {
+									duration: 3,
+									repeat: Infinity,
+								},
+							}}
+						>
+							<UpgradeIcon
+								sx={{ fontSize: 72, opacity: state.photoPreview ? 0.2 : 1 }}
+							/>
+						</motion.span>
+					</UpperPhotoWrap>
+				)}
+			</ProfileUserAvatar>
+		</ProfileUserAvatarWrap>
+	)
+
+	const renderInfoFields = (isEditable = false) => (
+		<ProfileInfo
+			ref={isEditable ? formRef : undefined}
+			onSubmit={isEditable ? handleSubmit(saveSettings) : undefined}
+		>
+			<InfoField
+				icon={AccountCircleIcon}
+				label='Full Name'
+				error={errors.name?.message}
+			>
+				{isEditable ? (
+					<InfoInput {...register('name')} type='text' />
+				) : (
+					<InfoValue>{user.name}</InfoValue>
+				)}
+			</InfoField>
+
+			<InfoField icon={AlternateEmailIcon} label='@Username'>
+				<InfoValue>{user.username}</InfoValue>
+			</InfoField>
+
+			<InfoField icon={EmailIcon} label='Email'>
+				<InfoValue>{user.email}</InfoValue>
+			</InfoField>
+
+			<InfoField icon={PhoneIcon} label='Phone' error={errors.phone?.message}>
+				{isEditable ? (
+					<PhoneInput
+						country='us'
+						value={user.phone || ''}
+						onChange={value => setValue('phone', value)}
+						inputProps={{
+							name: 'phone',
+							autoFocus: true,
+						}}
+					/>
+				) : (
+					<InfoValue>{!!user.phone ? `+${user.phone}` : '-'}</InfoValue>
+				)}
+			</InfoField>
+
+			<InfoField icon={CakeIcon} label='Age' error={errors.age?.message}>
+				{isEditable ? (
+					<StyledDatePicker>
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<DatePicker onChange={value => setValue('age', value)} />
+						</LocalizationProvider>
+					</StyledDatePicker>
+				) : (
+					<InfoValue>{formatDate(user.age as string) || '-'}</InfoValue>
+				)}
+			</InfoField>
+
+			<InfoField icon={WcIcon} label='Gender' error={errors.gender?.message}>
+				{isEditable ? (
+					<InfoInputSelect {...register('gender')}>
+						<option value='male'>Male</option>
+						<option value='female'>Female</option>
+					</InfoInputSelect>
+				) : (
+					<InfoValue withUpperLetter>{user.gender || '-'}</InfoValue>
+				)}
+			</InfoField>
+
+			<InfoField
+				icon={WorkIcon}
+				label='Position'
+				error={errors.position?.message}
+			>
+				{isEditable ? (
+					<InfoInput {...register('position')} type='text' />
+				) : (
+					<InfoValue>{user.position || '-'}</InfoValue>
+				)}
+			</InfoField>
+
+			{user.createdAt && (
+				<InfoField icon={CalendarMonthIcon} label='Register date'>
+					<InfoValue>{formatDate(user.createdAt)}</InfoValue>
+				</InfoField>
+			)}
+		</ProfileInfo>
+	)
+
+	const settingRender = () => (
+		<>
+			<SettingsBtn
+				onClick={() => dispatch({ type: 'SET_SETTING_MODE', payload: false })}
+				whileHover={{ rotate: 360 }}
+				transition={{ duration: 0.8 }}
+			>
+				<SettingsIcon />
+			</SettingsBtn>
+			{renderAvatar(true)}
+			<div>Hi there!</div>
+			{renderInfoFields(true)}
+			{isMaster && <Button onClick={handleSaveChanges}>Save changes</Button>}
+		</>
+	)
+
+	const viewRender = () => (
+		<>
+			{isMaster && (
+				<SettingsBtn
+					onClick={() => dispatch({ type: 'SET_SETTING_MODE', payload: true })}
+					whileHover={{ rotate: 360 }}
+					transition={{ duration: 0.8 }}
+				>
+					<SettingsIcon />
+				</SettingsBtn>
+			)}
+			{renderAvatar()}
+			<div>Hi there!</div>
+			{renderInfoFields()}
+			{isMaster && (
+				<Button onClick={handleLogOut} theme='red'>
+					Log out
+				</Button>
+			)}
+		</>
+	)
 
 	return (
 		<ProfileUserInfoWrapper>
+			{isLoading && <Loader />}
 			<ProfileUserContent
-				key={Math.random()}
 				initial={{ scale: 0.95 }}
 				animate={{ scale: 1 }}
-				transition={{
-					duration: 0.8,
-				}}
+				transition={{ duration: 0.8 }}
 			>
-				{state.isSettingMode && isMaster ? (
-					settingRender()
-				) : (
-					<>
-						{isMaster && (
-							<SettingsBtn
-								onClick={() =>
-									dispatch({ type: 'SET_SETTING_MODE', payload: true })
-								}
-								whileHover={{ rotate: 360 }}
-								transition={{ duration: 0.8 }}
-							>
-								<SettingsIcon />
-							</SettingsBtn>
-						)}
-						<ProfileUserAvatarWrap>
-							<ProfileUserAvatar>
-								<img
-									src={getUserPhotoUrl(
-										typeof user.photo === 'string' ? user.photo : undefined
-									)}
-									alt='User avatar'
-								/>
-							</ProfileUserAvatar>
-						</ProfileUserAvatarWrap>
-
-						<div>Hi there!</div>
-						<ProfileInfo>
-							<InfoItem>
-								<InfoIcon>
-									<AccountCircleIcon />
-								</InfoIcon>
-								<InfoLabel>Full Name</InfoLabel>
-								<InfoValue>{user.name}</InfoValue>
-							</InfoItem>
-							<InfoItem>
-								<InfoIcon>
-									<AlternateEmailIcon />
-								</InfoIcon>
-								<InfoLabel>@Username</InfoLabel>
-								<InfoValue>{user.username}</InfoValue>
-							</InfoItem>
-							<InfoItem>
-								<InfoIcon>
-									<EmailIcon />
-								</InfoIcon>
-								<InfoLabel>Email</InfoLabel>
-								<InfoValue>{user.email}</InfoValue>
-							</InfoItem>
-							<InfoItem>
-								<InfoIcon>
-									<PhoneIcon />
-								</InfoIcon>
-								<InfoLabel>Phone</InfoLabel>
-								<InfoValue>{user.phone || '-'}</InfoValue>
-							</InfoItem>
-							<InfoItem>
-								<InfoIcon>
-									<CakeIcon />
-								</InfoIcon>
-								<InfoLabel>Age</InfoLabel>
-								<InfoValue>{user.age || '-'}</InfoValue>
-							</InfoItem>
-							<InfoItem>
-								<InfoIcon>
-									<WcIcon />
-								</InfoIcon>
-								<InfoLabel>Gender</InfoLabel>
-								<InfoValue>{user.gender || '-'}</InfoValue>
-							</InfoItem>
-							<InfoItem>
-								<InfoIcon>
-									<WorkIcon />
-								</InfoIcon>
-								<InfoLabel>Position</InfoLabel>
-								<InfoValue>{user.position || '-'}</InfoValue>
-							</InfoItem>
-							{user.createdAt && (
-								<InfoItem>
-									<InfoIcon>
-										<CalendarMonthIcon />
-									</InfoIcon>
-									<InfoLabel>Register date</InfoLabel>
-									<InfoValue>{formatDate(user.createdAt)}</InfoValue>
-								</InfoItem>
-							)}
-						</ProfileInfo>
-						{isMaster && (
-							<Button onClick={handleLogOut} theme='red'>
-								Log out
-							</Button>
-						)}
-					</>
-				)}
+				{state.isSettingMode && isMaster ? settingRender() : viewRender()}
 			</ProfileUserContent>
 			{state.settingError && (
 				<UserProfileError>
-					<ErrorIcon
-						sx={{
-							fontSize: '72px',
-						}}
-					/>
+					<ErrorIcon sx={{ fontSize: '72px' }} />
 				</UserProfileError>
 			)}
 			{state.settingSuccess && (
 				<UserProfileError background='#00d96945;'>
-					<CheckCircleIcon
-						sx={{
-							fontSize: '72px',
-						}}
-					/>
+					<CheckCircleIcon sx={{ fontSize: '72px' }} />
 				</UserProfileError>
 			)}
 		</ProfileUserInfoWrapper>

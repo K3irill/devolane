@@ -34,7 +34,11 @@ export class UserService {
 			where: { username: data.username },
 			data: {
 				name: data.name || user.name,
-				age: data.age || user.age,
+				age: data.age ? new Date(data.age) : user.age,
+				phone: data.phone || user.phone,
+				gender: data.gender
+					? (data.gender.toUpperCase() as 'MALE' | 'FEMALE')
+					: user.gender,
 				photo: data.photo || user.photo,
 				position: data.position || user.position,
 				city: data.city || user.city,

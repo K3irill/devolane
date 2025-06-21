@@ -42,18 +42,18 @@ export const ProfileElementItem = styled.div<{ isOpen?: boolean }>`
 			background: #c6d9e8;
 			color: #151618fd;
 
-			&:after {
-				content: '';
-				position: absolute;
-				left: 50%;
-				transform: translateX(-50%);
-				bottom: -10px;
-				width: 0;
-				height: 0;
-				border-left: 8px solid transparent;
-				border-right: 8px solid transparent;
-				border-top: 10px solid #c6d9e8;
-			}
+			// &:after {
+			// 	content: '';
+			// 	position: absolute;
+			// 	left: 50%;
+			// 	transform: translateX(-50%);
+			// 	bottom: -10px;
+			// 	width: 0;
+			// 	height: 0;
+			// 	border-left: 8px solid transparent;
+			// 	border-right: 8px solid transparent;
+			// 	border-top: 10px solid #c6d9e8;
+			// }
 		`}
 `
 export const ProfileItemTitle = styled.p`
@@ -91,12 +91,12 @@ export const FullElementContent = styled.div`
 
 export const GroupElement = styled(motion.div)`
 	width: 100%;
-	height: 250px;
+	height: 200px;
 	border: 2px solid #242a2cff;
 	background: rgba(255, 255, 255, 0.05);
 	border-radius: 8px;
 	display: grid;
-	grid-template-rows: 1fr 30%;
+	grid-template-rows: 1fr 20%;
 	align-items: stretch;
 	gap: 10px;
 	overflow: hidden;
@@ -116,7 +116,7 @@ export const GroupImg = styled.div`
 
 	img {
 		width: 100%;
-		height: auto;
+		height: 100%;
 		object-fit: cover;
 	}
 `
@@ -124,10 +124,10 @@ export const GroupInfo = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	align-items: center;
+	font-size: 12px;
 	overflow-y: auto;
 	padding: 5px;
-	text-align: center;
+
 	&::-webkit-scrollbar {
 		width: 4px;
 	}

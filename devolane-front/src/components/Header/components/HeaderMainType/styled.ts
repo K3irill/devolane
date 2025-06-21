@@ -29,7 +29,7 @@ export const UserWidget = styled(motion.div)`
 	align-items: center;
 	justify-content: center;
 	gap: 15px;
-	padding: 10px 15px;
+	padding: 5px 10px;
 	border-radius: 20px;
 	transition: all ease-in-out 0.3s;
 	cursor: pointer;
@@ -40,8 +40,8 @@ export const UserWidget = styled(motion.div)`
 `
 
 export const UserWidgetAvatar = styled(motion.div)`
-	width: 75px;
-	height: 75px;
+	width: 45px;
+	height: 45px;
 	overflow: hidden;
 	border-radius: 50%;
 	border: 2px solid #8cb0a9;
@@ -55,12 +55,12 @@ export const UserWidgetAvatar = styled(motion.div)`
 
 export const UserWidgetInfo = styled(motion.div)`
 	display: flex;
-	flex-direction: column;
-	gap: 15px;
+	flex-direction: column-reverse;
+	gap: 5px;
 	text-align: right;
 `
 export const UserWidgetName = styled(motion.div)`
-	font-size: 1.2rem;
+	font-size: 12px;
 `
 export const UserWidgetUsername = styled(motion.div)`
 	font-size: 0.7rem;

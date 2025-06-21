@@ -163,12 +163,86 @@ export const InfoInput = styled.input`
 		outline: none;
 	}
 `
+export const InfoInputSelect = styled.select`
+	border: none;
+	background: transparent;
+	border-bottom: 1px solid #7f9b9a34;
+	width: 100%;
+	font-size: 18px;
 
-export const InfoValue = styled.span`
+	&:focus {
+		border-bottom: 2px solid #7f9b9a34;
+		outline: none;
+	}
+
+	& option {
+		color: #b0b8c1;
+	}
+`
+
+export const StyledDatePicker = styled.div`
+	width: 100%;
+	* {
+		border: none !important;
+		padding: 0 !important;
+		color: #b0b8c1;
+	}
+	.MuiTextField-root {
+		width: 100%;
+	}
+
+	.MuiFormControl-root {
+		border: none;
+		background: transparent;
+		border-bottom: 1px solid #7f9b9a34 !important;
+		border-radius: 0;
+		padding: 0;
+		font-size: 18px;
+		color: #fff;
+		display: flex;
+		align-items: center;
+
+		&:hover {
+			border-bottom: 1px solid #7f9b9a34;
+		}
+
+		&.Mui-focused {
+			border-bottom: 2px solid #7f9b9a34;
+			box-shadow: none;
+		}
+	}
+
+	.MuiInputLabel-root {
+		display: none;
+	}
+
+	.MuiOutlinedInput-notchedOutline {
+		border: none;
+	}
+
+	.Mui-focused .MuiOutlinedInput-notchedOutline {
+		border: none;
+	}
+
+	.MuiPickersInputBase-root {
+		justify-content: space-between;
+		width: 100%;
+		padding: 3px 17px !important;
+	}
+`
+
+export const InfoValue = styled.span<{ withUpperLetter?: boolean }>`
 	font-size: 14px;
 	color: #fff;
 	font-weight: 500;
 	word-break: break-all;
+
+	${p =>
+		p.withUpperLetter &&
+		`&::first-letter {
+		text-transform: uppercase;
+	}
+    text-transform: lowercase;`}
 `
 
 export const SettingsBtn = styled(motion.div)`

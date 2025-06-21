@@ -5,8 +5,8 @@ import { Providers } from '../../providers/providers'
 import Header from '@/components/Header/Header'
 import { EnHeaderType } from '@/components/Header/Header.types'
 import { getCurrentUser } from '@/lib/api/user/getUser'
-import Cookies from 'js-cookie'
 import { IUserFullResponse } from '@/types/user/IUser'
+import { cookies } from 'next/headers'
 
 const bungeeOutline = Bungee_Outline({
 	variable: '--font-bungee-outline',
@@ -36,10 +36,10 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	const username = Cookies.get('username')
+	const username = (await cookies()).get('username')?.value
 	let currentUser: IUserFullResponse | null = null
 	if (username) {
-		currentUser = await getCurrentUser(username)
+		currentUser = await getCurrentUser('te4st')
 	}
 	return (
 		<html lang='en'>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ArticleIcon from '@mui/icons-material/Article'
 import WallpaperIcon from '@mui/icons-material/Wallpaper'
 import SlideshowIcon from '@mui/icons-material/Slideshow'
@@ -27,7 +27,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import { spring } from 'framer-motion'
-import Button from '@mui/material/Button'
+import Link from 'next/link'
 
 type IconType = 'Groups3' | 'Article' | 'Wallpaper' | 'Slideshow'
 type ElementType = 'group' | 'article' | 'photo' | 'video'
@@ -104,6 +104,10 @@ const ProfileElements: React.FC<ProfileElementsProps> = () => {
 		},
 	]
 
+	useEffect(() => {
+		setActiveElement('group')
+	}, [])
+
 	const handleOpenElement = (type: ElementType) => {
 		setActiveElement(type)
 	}
@@ -141,30 +145,7 @@ const ProfileElements: React.FC<ProfileElementsProps> = () => {
 											<img src={group.image} alt={group.name} />
 										</GroupImg>
 										<GroupInfo>
-											{group.name}
-											<Button
-												sx={{
-													fontSize: '12px',
-													backgroundColor: '#136abb53',
-													color: 'white',
-													padding: '6px 16px',
-													borderRadius: '8px',
-													border: '1px solid #15c09ed9',
-													'&:hover': {
-														backgroundColor: '#15c09ed9',
-														transform: 'translateY(-2px)',
-														boxShadow: '0 4px 8px rgba(36, 1, 1, 0.2)',
-													},
-													transition: 'all 0.3s ease',
-													'&:disabled': {
-														backgroundColor: '#e0e0e0',
-														color: '#9e9e9e',
-													},
-												}}
-												variant='contained'
-											>
-												check this out
-											</Button>
+											<Link href={'/'}> {group.name}</Link>
 										</GroupInfo>
 									</GroupElement>
 								</SwiperSlide>
