@@ -107,12 +107,17 @@ export const HeaderNavList = styled.nav`
 	align-items: center;
 	gap: 35px;
 	max-width: fit-content;
+
+	a {
+		text-wrap: nowrap;
+	}
 `
 
 export const HeaderNavItem = styled.div<{ isDisabled?: boolean }>`
 	a {
 		color: #86d3f9;
-		font-size: 1.2rem;
+		font-size: 1rem;
+		font-family: var(--font-gugi-sans), Arial, Helvetica, sans-serif;
 		${p => p.isDisabled && `opacity: 0.5; pointer-events: none;`}
 	}
 `

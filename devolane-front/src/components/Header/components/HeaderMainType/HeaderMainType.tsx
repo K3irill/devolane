@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { HeaderNavigation, HeaderNavList } from '../../styled'
+import { HeaderNavigation, HeaderNavItem, HeaderNavList } from '../../styled'
 import Link from 'next/link'
 import {
 	Logo,
@@ -28,7 +28,23 @@ const HeaderMainType = () => {
 				</Link>
 			</Logo>
 			<HeaderNavigation>
-				<HeaderNavList></HeaderNavList>
+				<HeaderNavList>
+					<HeaderNavItem>
+						<Link href={'/interview-hub'}>InterviewHub</Link>
+					</HeaderNavItem>
+					<HeaderNavItem isDisabled>
+						<Link href={'/community'}>Community & Chat </Link>
+					</HeaderNavItem>
+					<HeaderNavItem isDisabled>
+						<Link href={'/challenges'}>DevChallenges</Link>
+					</HeaderNavItem>
+					<HeaderNavItem isDisabled>
+						<Link href={'/devDiary'}>DevDiary</Link>
+					</HeaderNavItem>
+					<HeaderNavItem isDisabled>
+						<Link href={'/promptBox'}>PromptBox</Link>
+					</HeaderNavItem>
+				</HeaderNavList>
 			</HeaderNavigation>
 			<UserWidget onClick={() => router.push(`/profile/${user?.username}`)}>
 				<UserWidgetInfo>
