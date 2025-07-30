@@ -1,7 +1,12 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Diversity1Icon from '@mui/icons-material/Diversity1'
-import { BoxWrapper, LeftBlockStyled, WelcomeTitle } from '../../styled'
+import {
+	BoxWrapper,
+	IconBoxWrapper,
+	LeftBlockStyled,
+	WelcomeTitle,
+} from '../../styled'
 
 const LeftBlock = () => {
 	return (
@@ -39,31 +44,33 @@ const LeftBlock = () => {
 			>
 				Login in the Devolane
 			</WelcomeTitle>
-			<BoxWrapper>
-				<motion.div
-					initial={{
-						opacity: 0,
-						y: -50,
-						scale: 2,
-					}}
-					animate={{
-						opacity: 1,
-						y: 0,
-						scale: [1.1, 1, 1.1],
-					}}
-					transition={{
-						opacity: { duration: 0.8, ease: 'easeOut' },
-						y: { duration: 0.8, ease: 'easeOut' },
-						scale: {
-							duration: 3,
-							repeat: Infinity,
-							ease: 'easeInOut',
-						},
-					}}
-				>
-					<Diversity1Icon sx={{ fontSize: 272 }} />
-				</motion.div>
-			</BoxWrapper>
+			<IconBoxWrapper>
+				<BoxWrapper>
+					<motion.div
+						initial={{
+							opacity: 0,
+							y: -50,
+							scale: 2,
+						}}
+						animate={{
+							opacity: 1,
+							y: 0,
+							scale: [1.1, 1, 1.1],
+						}}
+						transition={{
+							opacity: { duration: 0.8, ease: 'easeOut' },
+							y: { duration: 0.8, ease: 'easeOut' },
+							scale: {
+								duration: 3,
+								repeat: Infinity,
+								ease: 'easeInOut',
+							},
+						}}
+					>
+						<Diversity1Icon sx={{ fontSize: 272 }} />
+					</motion.div>
+				</BoxWrapper>
+			</IconBoxWrapper>
 		</LeftBlockStyled>
 	)
 }

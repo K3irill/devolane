@@ -6,6 +6,7 @@ export const BurgerMenuStyled = styled.div`
 	height: 100vh;
 	background: #120628;
 	top: 0;
+	left: 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -13,6 +14,7 @@ export const BurgerMenuStyled = styled.div`
 	z-index: 101;
 `
 export const BurgerMenuNavigation = styled.div``
+
 export const BurgerMenuNavList = styled.ul`
 	display: flex;
 	flex-direction: column;

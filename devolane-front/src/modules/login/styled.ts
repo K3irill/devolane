@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { glassGradientAnimation } from '@/styles/keyframes'
 import { Colors } from '@/lib/constants/Colors'
+import { breakpoints } from '@/lib/constants/Breackpoints'
 
 export const LoginFormContainer = styled(motion.div)`
 	max-width: 480px;
@@ -27,11 +28,24 @@ export const LoginFormContainer = styled(motion.div)`
 
 export const LoginStyled = styled.div`
 	padding-top: 15vh;
+
+	@media ${breakpoints.mobileMax} {
+		padding-top: 10vh;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
 `
 export const LoginWrapper = styled(motion.div)`
 	display: flex;
 	justify-content: space-between;
 	flex-direction: row-reverse;
+
+	@media ${breakpoints.mobileMax} {
+		position: relative;
+		z-index: -1;
+		flex-direction: column;
+		align-items: center;
+	}
 `
 
 export const LoginFormStyled = styled.form``
@@ -110,7 +124,17 @@ export const WelcomeTitle = styled(motion.h2)`
 	font-size: 48px;
 	font-weight: 700;
 	padding: 15px 0;
+
+	@media ${breakpoints.mobileMax} {
+		text-align: center;
+	}
 `
+export const IconBoxWrapper = styled.div`
+	@media ${breakpoints.mobileMax} {
+		display: none;
+	}
+`
+
 export const ImgWrap = styled(motion.div)`
 	width: 100px;
 	height: 80px;
