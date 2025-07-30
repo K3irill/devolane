@@ -20,6 +20,14 @@ const HeaderMainType = () => {
 	const user = useSelector((store: RootState) => store.user.user)
 	const router = useRouter()
 
+	const NAV_LINKS = [
+		{ id: 0, href: '/interview-hub', title: 'InterviewHub', enable: true },
+		{ id: 1, href: '/community', title: 'Community & Chat', enable: false },
+		{ id: 2, href: '/challenges', title: 'DevChallenges', enable: false },
+		{ id: 3, href: '/devDiary', title: 'DevDiary', enable: false },
+		{ id: 4, href: '/promptBox', title: 'PromptBox', enable: false },
+	]
+
 	return (
 		<>
 			<Logo>
@@ -29,21 +37,13 @@ const HeaderMainType = () => {
 			</Logo>
 			<HeaderNavigation>
 				<HeaderNavList>
-					<HeaderNavItem>
-						<Link href={'/interview-hub'}>InterviewHub</Link>
-					</HeaderNavItem>
-					<HeaderNavItem isDisabled>
-						<Link href={'/community'}>Community & Chat </Link>
-					</HeaderNavItem>
-					<HeaderNavItem isDisabled>
-						<Link href={'/challenges'}>DevChallenges</Link>
-					</HeaderNavItem>
-					<HeaderNavItem isDisabled>
-						<Link href={'/devDiary'}>DevDiary</Link>
-					</HeaderNavItem>
-					<HeaderNavItem isDisabled>
-						<Link href={'/promptBox'}>PromptBox</Link>
-					</HeaderNavItem>
+					{NAV_LINKS.map(item => (
+						<HeaderNavItem isDisabled={!item.enable} key={item.id}>
+							<Link aria-disabled={item.enable} href={item.href}>
+								{item.title}
+							</Link>
+						</HeaderNavItem>
+					))}
 				</HeaderNavList>
 			</HeaderNavigation>
 			<UserWidget onClick={() => router.push(`/profile/${user?.username}`)}>

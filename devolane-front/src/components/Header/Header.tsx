@@ -20,6 +20,7 @@ const Header: FC<IHeader> = ({ type }) => {
 
 	return (
 		<HeaderStyled
+			className='header'
 			initial={{ opacity: 0.5, transform: 'translateY(-100%)' }}
 			animate={{ opacity: 1, transform: 'translateY(0px)' }}
 			transition={{ duration: 1 }}

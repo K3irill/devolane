@@ -2,6 +2,7 @@ import { glassGradientAnimation } from '@/styles/keyframes'
 import { motion } from 'framer-motion'
 import styled, { css, keyframes } from 'styled-components'
 import { EnHeaderType } from './Header.types'
+import { breakpoints } from '@/lib/constants/Breackpoints'
 
 const mainHeaderAnimation = keyframes`
   0% {
@@ -73,7 +74,8 @@ export const logoColorAnimation = keyframes`
 `
 
 export const Logo = styled.div`
-	font-size: 3rem;
+	font-size: 2rem;
+	padding: 10px 0;
 	position: relative;
 	transition: transform ease 0.4s;
 	font-family: var(--font-bungee-shade);
@@ -92,6 +94,14 @@ export const Logo = styled.div`
 	&:hover {
 		transform: scale(1.05);
 	}
+
+	@media ${breakpoints.tabletMax} {
+		font-size: 1.2rem;
+	}
+
+	@media ${breakpoints.mobileMax} {
+		font-size: 0.8rem;
+	}
 `
 
 export const HeaderNavigation = styled.nav`
@@ -99,6 +109,10 @@ export const HeaderNavigation = styled.nav`
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
+
+	@media ${breakpoints.mobileMax} {
+		display: none;
+	}
 `
 
 export const HeaderNavList = styled.nav`
@@ -111,6 +125,10 @@ export const HeaderNavList = styled.nav`
 	a {
 		text-wrap: nowrap;
 	}
+
+	@media ${breakpoints.tabletMax} {
+		gap: 20px;
+	}
 `
 
 export const HeaderNavItem = styled.div<{ isDisabled?: boolean }>`
@@ -119,7 +137,101 @@ export const HeaderNavItem = styled.div<{ isDisabled?: boolean }>`
 		font-size: 1rem;
 		font-family: var(--font-gugi-sans), Arial, Helvetica, sans-serif;
 		${p => p.isDisabled && `opacity: 0.5; pointer-events: none;`}
+
+		@media ${breakpoints.tabletMax} {
+			font-size: 0.8rem;
+		}
 	}
 `
 
-export const HeaderActivity = styled.div``
+export const HeaderActivity = styled.div`
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	line-height: 1;
+`
+
+export const AuthLink = styled.div`
+	a {
+
+    
+
+		@media ${breakpoints.tabletMax} {
+			font-size: 0.8rem;
+			line-height: 1;
+			white-space nowrap;
+      text-shadow: 0 0 8px
+				rgba(233, 17, 233, 0.424);
+		}
+		}
+	}
+`
+export const BurgerIcon = styled.div<{ isOpen?: boolean }>`
+	position: relative;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	z-index: 100;
+	z-index: 102;
+	transition: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+	span {
+		position: relative;
+		width: 24px;
+		height: 3px;
+		background: #00e5ff;
+		border-radius: 3px;
+		transition: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+		transform-origin: center;
+
+		&:nth-child(1) {
+			transform: ${p =>
+				p.isOpen
+					? 'translateY(3px) rotate(45deg) scaleX(1.2)'
+					: 'translateY(-6px)'};
+		}
+
+		&:nth-child(2) {
+			opacity: ${p => (p.isOpen ? 0 : 1)};
+			transform: ${p => (p.isOpen ? 'scale(0)' : 'scale(1)')};
+		}
+
+		&:nth-child(3) {
+			transform: ${p =>
+				p.isOpen
+					? 'translateY(-3px) rotate(-45deg) scaleX(1.2)'
+					: 'translateY(6px)'};
+		}
+	}
+
+	&:hover {
+		span {
+			background: ${p => (p.isOpen ? '#ff00e5' : '#00ffea')};
+			box-shadow: 0 0 8px
+				${p =>
+					p.isOpen ? 'rgba(233, 17, 233, 0.8)' : 'rgba(0, 229, 255, 0.8)'};
+		}
+	}
+
+	${p =>
+		p.isOpen &&
+		`
+    transform: rotate(180deg);
+    
+    span {
+      background: #e911e9;
+      
+      &:nth-child(1), &:nth-child(3) {
+        width: 28px;
+      }
+    }
+  `}
+
+	@media ${breakpoints.mobileMin} {
+		display: none;
+	}
+`

@@ -33,7 +33,7 @@ export const RegisterWrapper = styled(motion.div)`
 	justify-content: space-between;
 `
 
-export const RegisterForm = styled.form``
+export const RegisterFormStyled = styled.form``
 
 export const FormTitle = styled.h1`
 	text-align: center;

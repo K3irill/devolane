@@ -4,6 +4,9 @@ import Cookies from 'js-cookie'
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333/api'
 
+let refreshAttempts = 0
+const MAX_REFRESH_ATTEMPTS = 3
+
 export const axiosInstance = axios.create({
 	baseURL,
 	withCredentials: true,
@@ -32,12 +35,22 @@ axiosInstance.interceptors.response.use(
 		if (error.response?.status === 401 && !originalRequest._retry) {
 			originalRequest._retry = true
 
+			if (refreshAttempts >= MAX_REFRESH_ATTEMPTS) {
+				Cookies.remove('token')
+				redirect('/login')
+				return Promise.reject(new Error('Max refresh attempts exceeded'))
+			}
+
 			try {
+				refreshAttempts++
 				const response = await axiosInstance.post('/auth/refresh')
 				const newToken = response.data.token
+
 				if (newToken) {
 					Cookies.set('token', newToken, { expires: 30 })
+					refreshAttempts = 0
 				}
+
 				return axiosInstance(originalRequest)
 			} catch (refreshError) {
 				Cookies.remove('token')

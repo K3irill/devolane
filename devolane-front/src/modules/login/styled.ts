@@ -34,7 +34,7 @@ export const LoginWrapper = styled(motion.div)`
 	flex-direction: row-reverse;
 `
 
-export const LoginForm = styled.form``
+export const LoginFormStyled = styled.form``
 
 export const FormTitle = styled.h1`
 	text-align: center;
@@ -109,6 +109,7 @@ export const BoxStyled = styled(motion.div)`
 export const WelcomeTitle = styled(motion.h2)`
 	font-size: 48px;
 	font-weight: 700;
+	padding: 15px 0;
 `
 export const ImgWrap = styled(motion.div)`
 	width: 100px;
