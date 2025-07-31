@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { glassGradientAnimation } from '@/styles/keyframes'
 import { Colors } from '@/lib/constants/Colors'
+import { breakpoints } from '@/lib/constants/Breackpoints'
 
 export const RegisterFormContainer = styled(motion.div)`
 	max-width: 480px;
@@ -13,7 +14,6 @@ export const RegisterFormContainer = styled(motion.div)`
 	backdrop-filter: blur(16px);
 	-webkit-backdrop-filter: blur(16px);
 	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-
 	background: linear-gradient(
 		135deg,
 		rgba(0, 128, 255, 0.07),
@@ -26,11 +26,19 @@ export const RegisterFormContainer = styled(motion.div)`
 `
 
 export const RegisterStyled = styled.div`
-	padding-top: 15vh;
+	padding-top: 10vh;
 `
 export const RegisterWrapper = styled(motion.div)`
 	display: flex;
 	justify-content: space-between;
+
+	@media ${breakpoints.mobileMax} {
+		position: relative;
+		z-index: -1;
+		flex-direction: column;
+		align-items: center;
+		padding: 0 10px;
+	}
 `
 
 export const RegisterFormStyled = styled.form``
@@ -45,6 +53,14 @@ export const FormContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
+
+	@media ${breakpoints.mobileMax} {
+		font-size: 1rem;
+
+		.checkbox__text-label {
+			font-size: 0.6rem;
+		}
+	}
 `
 
 export const FormLabel = styled.label`
@@ -55,14 +71,18 @@ export const FormLabel = styled.label`
 	position: relative;
 `
 
-export const TextError = styled.span`
-	font-size: 14px;
+export const TextError = styled(motion.span)`
+	font-size: 12px;
 	color: ${Colors.Red.error};
 `
 
 export const TextLabel = styled.span<{ size?: string }>`
 	font-weight: 500;
 	font-size: ${p => p.size || `1.3rem`};
+
+	@media ${breakpoints.mobileMax} {
+		font-size: 1rem;
+	}
 `
 export const TextHint = styled.span<{ size?: string }>`
 	font-weight: 400;
@@ -70,6 +90,7 @@ export const TextHint = styled.span<{ size?: string }>`
 	font-size: ${p => p.size || `0.6rem`};
 	position: absolute;
 	top: 20px;
+	opacity: 0.5;
 `
 
 export const CheckboxWrapper = styled.div`
@@ -114,4 +135,16 @@ export const BoxStyled = styled(motion.div)`
 export const WelcomeTitle = styled(motion.h2)`
 	font-size: 48px;
 	font-weight: 700;
+	text-align: center;
+	line-height: 1.4;
+
+	@media ${breakpoints.mobileMax} {
+		font-size: 28px;
+	}
+`
+
+export const IconBoxWrapper = styled.div`
+	@media ${breakpoints.mobileMax} {
+		display: none;
+	}
 `

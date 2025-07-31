@@ -5,14 +5,16 @@ import {
 	BurgerMenuStyled,
 	BurgerNavItem,
 } from './styled'
+import { IBurgerMenu } from './BurgerMenuType'
 
-function BurgerMenu(links) {
+function BurgerMenu({ links, isShow }: IBurgerMenu) {
+	console.log(links, isShow)
 	return (
-		<BurgerMenuStyled>
+		<BurgerMenuStyled isShow={isShow}>
 			<BurgerMenuNavigation>
 				<BurgerMenuNavList>
 					{links &&
-						links.links.map(item => (
+						links.map(item => (
 							<BurgerNavItem isDisabled={!item.enable} key={item.id}>
 								<Link aria-disabled={item.enable} href={item.href}>
 									{item.title}

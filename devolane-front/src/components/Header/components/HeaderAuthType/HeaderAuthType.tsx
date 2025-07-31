@@ -12,7 +12,6 @@ import {
 } from '../../styled'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { createPortal } from 'react-dom'
 import BurgerMenu from '@/components/BurgerMenu/BurgerMenu'
 
 export const NAV_LINKS = [
@@ -63,11 +62,7 @@ const HeaderAuthType = () => {
 					<span />
 				</BurgerIcon>
 			</HeaderActivity>
-			{isBurgerMenuOpen &&
-				createPortal(
-					<BurgerMenu links={NAV_LINKS} />,
-					document.body.querySelector('.header') || document.body
-				)}
+			<BurgerMenu isShow={isBurgerMenuOpen} links={NAV_LINKS} />
 		</>
 	)
 }

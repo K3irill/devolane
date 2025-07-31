@@ -127,6 +127,7 @@ export const WelcomeTitle = styled(motion.h2)`
 
 	@media ${breakpoints.mobileMax} {
 		text-align: center;
+		font-size: 32px;
 	}
 `
 export const IconBoxWrapper = styled.div`

@@ -36,7 +36,7 @@ const LeftBlock = () => {
 					fontFamily: `var(--font-bungee-outline)`,
 					WebkitBackgroundClip: 'text',
 					WebkitTextFillColor: 'transparent',
-					fontSize: '2.5rem',
+
 					fontWeight: 'bold',
 					marginBottom: '2rem',
 					textShadow: '0 0 10px rgba(5, 230, 255, 0.3)',

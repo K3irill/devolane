@@ -48,9 +48,6 @@ export default function RegisterForm() {
 				<FormContent>
 					<FormLabel>
 						<TextLabel>Name*</TextLabel>
-						{errors?.name?.message && (
-							<TextError>{errors.name.message}</TextError>
-						)}
 						<TextInput
 							{...register('name')}
 							type='text'
@@ -63,14 +60,30 @@ export default function RegisterForm() {
 							isValid={
 								touchedFields.name && !errors?.name?.message && name?.length > 0
 							}
-						/>
+						/>{' '}
+						{errors?.name?.message && (
+							<TextError
+								initial={{
+									opacity: 0,
+									y: -5,
+								}}
+								animate={{
+									opacity: 1,
+									y: 0,
+								}}
+								transition={{
+									opacity: { duration: 0.6, ease: 'easeOut' },
+									y: { duration: 0.6, ease: 'easeOut' },
+								}}
+							>
+								{errors.name.message}
+							</TextError>
+						)}
 					</FormLabel>
 					<FormLabel>
 						<TextLabel>Username</TextLabel>
 						<TextHint>not required</TextHint>
-						{!!username && username.length > 0 && errors?.username?.message && (
-							<TextError>{errors.username.message}</TextError>
-						)}
+
 						<TextInput
 							{...register('username')}
 							type='text'
@@ -89,12 +102,28 @@ export default function RegisterForm() {
 								username?.length > 0
 							}
 						/>
+						{!!username && username.length > 0 && errors?.username?.message && (
+							<TextError
+								initial={{
+									opacity: 0,
+									y: -5,
+								}}
+								animate={{
+									opacity: 1,
+									y: 0,
+								}}
+								transition={{
+									opacity: { duration: 0.6, ease: 'easeOut' },
+									y: { duration: 0.6, ease: 'easeOut' },
+								}}
+							>
+								{errors.username.message}
+							</TextError>
+						)}
 					</FormLabel>
 					<FormLabel>
 						<TextLabel>Email*</TextLabel>
-						{errors?.email?.message && (
-							<TextError>{errors.email.message}</TextError>
-						)}
+
 						<TextInput
 							{...register('email')}
 							type='email'
@@ -110,12 +139,28 @@ export default function RegisterForm() {
 								email?.length > 0
 							}
 						/>
+						{errors?.email?.message && (
+							<TextError
+								initial={{
+									opacity: 0,
+									y: -5,
+								}}
+								animate={{
+									opacity: 1,
+									y: 0,
+								}}
+								transition={{
+									opacity: { duration: 0.6, ease: 'easeOut' },
+									y: { duration: 0.6, ease: 'easeOut' },
+								}}
+							>
+								{errors.email.message}
+							</TextError>
+						)}
 					</FormLabel>
 					<FormLabel>
 						<TextLabel>Password*</TextLabel>
-						{errors?.password?.message && (
-							<TextError>{errors.password.message}</TextError>
-						)}
+
 						<TextInput
 							{...register('password')}
 							type='password'
@@ -131,12 +176,28 @@ export default function RegisterForm() {
 								password?.length > 0
 							}
 						/>
+						{errors?.password?.message && (
+							<TextError
+								initial={{
+									opacity: 0,
+									y: -5,
+								}}
+								animate={{
+									opacity: 1,
+									y: 0,
+								}}
+								transition={{
+									opacity: { duration: 0.6, ease: 'easeOut' },
+									y: { duration: 0.6, ease: 'easeOut' },
+								}}
+							>
+								{errors.password.message}
+							</TextError>
+						)}
 					</FormLabel>
 					<FormLabel>
 						<TextLabel>Confirm Password*</TextLabel>
-						{errors?.confirmPassword?.message && (
-							<TextError>{errors.confirmPassword.message}</TextError>
-						)}
+
 						<TextInput
 							{...register('confirmPassword')}
 							type='password'
@@ -152,6 +213,24 @@ export default function RegisterForm() {
 								confirmPassword?.length > 0
 							}
 						/>
+						{errors?.confirmPassword?.message && (
+							<TextError
+								initial={{
+									opacity: 0,
+									y: -5,
+								}}
+								animate={{
+									opacity: 1,
+									y: 0,
+								}}
+								transition={{
+									opacity: { duration: 0.6, ease: 'easeOut' },
+									y: { duration: 0.6, ease: 'easeOut' },
+								}}
+							>
+								{errors.confirmPassword.message}
+							</TextError>
+						)}
 					</FormLabel>
 					<FormLabel>
 						<CheckboxWrapper>
@@ -166,15 +245,32 @@ export default function RegisterForm() {
 								defaultChecked
 							/>
 							<TextLabel
+								className='checkbox__text-label'
 								dangerouslySetInnerHTML={{
 									__html: `I agree to the processing of personal data in accordance
             with the <a href="/privacy">Privacy Policy</a>`,
 								}}
 								size='0.8em'
+								style={{ lineHeight: '1.6' }}
 							/>
 						</CheckboxWrapper>
 						{errors?.terms?.message && (
-							<TextError>{errors.terms.message}</TextError>
+							<TextError
+								initial={{
+									opacity: 0,
+									y: -5,
+								}}
+								animate={{
+									opacity: 1,
+									y: 0,
+								}}
+								transition={{
+									opacity: { duration: 0.6, ease: 'easeOut' },
+									y: { duration: 0.6, ease: 'easeOut' },
+								}}
+							>
+								{errors.terms.message}
+							</TextError>
 						)}
 					</FormLabel>
 					<Button

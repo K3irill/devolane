@@ -231,14 +231,14 @@ export const StyledDatePicker = styled.div`
 	}
 `
 
-export const InfoValue = styled.span<{ withUpperLetter?: boolean }>`
+export const InfoValue = styled.span<{ withupperletter?: boolean }>`
 	font-size: 14px;
 	color: #fff;
 	font-weight: 500;
 	word-break: break-all;
 
 	${p =>
-		p.withUpperLetter &&
+		p.withupperletter &&
 		`&::first-letter {
 		text-transform: uppercase;
 	}

@@ -296,7 +296,7 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 						<option value='female'>Female</option>
 					</InfoInputSelect>
 				) : (
-					<InfoValue withUpperLetter>{user.gender || '-'}</InfoValue>
+					<InfoValue withupperletter>{user.gender || '-'}</InfoValue>
 				)}
 			</InfoField>
 
