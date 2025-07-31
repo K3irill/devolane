@@ -25,7 +25,7 @@ export default async function RootLayout({
 			>
 				<Providers user={currentUser?.data}>
 					<Header type={EnHeaderType.Main} />
-					{children}
+					<main>{children}</main>
 				</Providers>
 			</body>
 		</html>

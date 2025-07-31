@@ -1,4 +1,4 @@
-type State = {
+export type State = {
 	isSettingMode: boolean
 	downloadedPhoto?: File
 	photoPreview?: string
@@ -6,7 +6,7 @@ type State = {
 	settingSuccess: boolean
 }
 
-type Action =
+export type Action =
 	| { type: 'SET_SETTING_MODE'; payload: boolean }
 	| { type: 'SET_DOWNLOADED_PHOTO'; payload?: File }
 	| { type: 'SET_PHOTO_PREVIEW'; payload?: string }

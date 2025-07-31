@@ -4,3 +4,7 @@ export interface ProfileUserInfoProps {
 	user: IUser
 	isMaster?: boolean
 }
+
+export type IPartOfUserProfile = {
+	isEditable?: boolean
+}

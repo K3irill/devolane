@@ -16,7 +16,7 @@ const mainHeaderAnimation = keyframes`
   }
 `
 
-export const HeaderStyled = styled(motion.div)<{ type?: EnHeaderType }>`
+export const HeaderStyled = styled(motion.header)<{ type?: EnHeaderType }>`
 	border-bottom: 1px solid rgba(122, 237, 255, 0.15);
 	backdrop-filter: blur(16px);
 	-webkit-backdrop-filter: blur(16px);
