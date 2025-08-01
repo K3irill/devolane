@@ -5,11 +5,12 @@ export interface IUserImage {
 	height: number
 }
 export interface IUser {
+	bio?: string | null
 	name: string | null
 	email: string | null
 	fullName?: string
 	phone?: string
-	age?: string
+	age?: AnyPresentValue
 	gender?: string
 	position?: string
 	haveJob?: boolean
@@ -47,7 +48,7 @@ export type IUserLoginResponse = {
 }
 
 export type IUserFullResponse = {
-	success: string
+	success: boolean
 	data: IUser
 }
 

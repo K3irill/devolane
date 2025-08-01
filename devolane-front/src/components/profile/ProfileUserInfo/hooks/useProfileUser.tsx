@@ -53,6 +53,7 @@ function useProfileUser({ user, formRef }: useProfileUserType) {
 			age: user.age ?? undefined,
 			gender: (user.gender as 'male' | 'female' | undefined) ?? undefined,
 			position: user.position ?? undefined,
+			bio: user.bio ?? 'Hello there!',
 		},
 	})
 
@@ -83,7 +84,7 @@ function useProfileUser({ user, formRef }: useProfileUserType) {
 					setUser({
 						...user,
 						...data,
-						age: typeof data.age === 'string' ? data.age : undefined,
+						age: data.age ?? undefined,
 						phone: data.phone ?? undefined,
 						gender: data.gender ?? undefined,
 						position: data.position ?? undefined,

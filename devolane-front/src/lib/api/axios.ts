@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { redirect } from 'next/navigation'
+
 import Cookies from 'js-cookie'
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333/api'
@@ -26,9 +26,7 @@ axiosInstance.interceptors.request.use(
 )
 
 axiosInstance.interceptors.response.use(
-	response => {
-		return response
-	},
+	response => response,
 	async error => {
 		const originalRequest = error.config
 
@@ -37,24 +35,28 @@ axiosInstance.interceptors.response.use(
 
 			if (refreshAttempts >= MAX_REFRESH_ATTEMPTS) {
 				Cookies.remove('token')
-				redirect('/login')
 				return Promise.reject(new Error('Max refresh attempts exceeded'))
 			}
 
 			try {
 				refreshAttempts++
 				const response = await axiosInstance.post('/auth/refresh')
-				const newToken = response.data.token
 
-				if (newToken) {
-					Cookies.set('token', newToken, { expires: 30 })
-					refreshAttempts = 0
+				if (response.status === 401) {
+					Cookies.remove('token')
+					return Promise.reject(new Error('Refresh token expired'))
 				}
 
+				const newToken = response.data.token
+				if (!newToken) {
+					throw new Error('No token in refresh response')
+				}
+
+				Cookies.set('token', newToken, { expires: 30 })
+				refreshAttempts = 0
 				return axiosInstance(originalRequest)
 			} catch (refreshError) {
 				Cookies.remove('token')
-				redirect('/login')
 				return Promise.reject(refreshError)
 			}
 		}

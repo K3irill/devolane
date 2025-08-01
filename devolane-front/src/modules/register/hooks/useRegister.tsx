@@ -44,7 +44,6 @@ function useRegister() {
 		RegisterFormSchema | IUserRegister
 	> = async data => {
 		try {
-			console.log('Sending registration data:', data)
 			setRegisterError(false)
 			setRegError(null)
 			setRegisterSuccess(false)

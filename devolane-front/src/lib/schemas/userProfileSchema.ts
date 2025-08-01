@@ -24,6 +24,9 @@ export const userProfileSchema = yup.object().shape({
 		.oneOf(['male', 'female', 'other'], 'Please select a valid gender')
 		.nullable()
 		.notRequired(),
+
+	bio: yup.string().max(48, 'Max length 48 characters long').notRequired(),
+
 	position: yup.string().nullable().notRequired(),
 })
 

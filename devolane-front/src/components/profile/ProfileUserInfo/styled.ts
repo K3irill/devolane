@@ -164,6 +164,7 @@ export const InfoInput = styled.input`
 	}
 `
 export const InfoInputSelect = styled.select`
+	cursor: pointer;
 	border: none;
 	background: transparent;
 	border-bottom: 1px solid #7f9b9a34;
@@ -259,4 +260,10 @@ export const SettingsBtn = styled(motion.div)`
 	position: absolute;
 	z-index: 3;
 	right: 0;
+`
+
+export const BioField = styled(motion.div)`
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `

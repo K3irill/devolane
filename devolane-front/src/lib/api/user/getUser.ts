@@ -1,14 +1,20 @@
 import { IUserFullResponse } from '@/types/user/IUser'
-import { axiosInstance } from '../axios'
+import { axiosServer } from '../axiosServer'
 
 export async function getCurrentUser(
 	username: string
 ): Promise<IUserFullResponse | null> {
 	try {
-		const res = await axiosInstance.post<IUserFullResponse>('/user/get-user', {
-			username,
+		const res = await axiosServer<IUserFullResponse>({
+			method: 'POST',
+			url: '/user/get-user',
+			data: { username },
 		})
-		return res.data
+
+		return {
+			success: true,
+			data: res.data,
+		}
 	} catch (error) {
 		console.error(error)
 		return null

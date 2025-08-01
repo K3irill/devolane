@@ -7,18 +7,20 @@ const InfoField = ({
 	children,
 	error,
 }: {
-	icon: React.ComponentType
-	label: string
+	icon?: React.ComponentType
+	label?: string
 	children: React.ReactNode
 	error?: string
 }) => (
 	<InfoItem>
-		<InfoIcon>
-			<Icon />
-		</InfoIcon>
-		<InfoLabel>{label}</InfoLabel>
+		{Icon && (
+			<InfoIcon>
+				<Icon />
+			</InfoIcon>
+		)}
+		{label && <InfoLabel>{label}</InfoLabel>}
 		{children}
-		<ErrorMessage message={error} />
+		{error && <ErrorMessage message={error} />}
 	</InfoItem>
 )
 

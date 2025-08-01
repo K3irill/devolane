@@ -5,10 +5,12 @@ import Avatar from './Avatar'
 import InfoFields from './InfoFields'
 import { useProfileContext } from '@/context/ProfileContext'
 
-import { SettingsBtn } from '../styled'
+import { BioField, InfoInput, SettingsBtn } from '../styled'
+import InfoField from '@/components/InfoField/InfoField'
 
 const Settings = () => {
-	const { dispatch, handleSaveChanges, isMaster } = useProfileContext()
+	const { dispatch, handleSaveChanges, isMaster, errors, register } =
+		useProfileContext()
 
 	return (
 		<>
@@ -20,7 +22,16 @@ const Settings = () => {
 				<SettingsIcon />
 			</SettingsBtn>
 			<Avatar isEditable />
-			<div>Hi there!</div>
+			<BioField>
+				<InfoField error={errors.bio?.message}>
+					<InfoInput
+						style={{ textAlign: 'center' }}
+						{...register('bio')}
+						type='text'
+					/>
+				</InfoField>
+			</BioField>
+
 			<InfoFields isEditable />
 			{isMaster && <Button onClick={handleSaveChanges}>Save changes</Button>}
 		</>

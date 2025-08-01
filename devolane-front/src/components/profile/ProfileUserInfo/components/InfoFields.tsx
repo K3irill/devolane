@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -80,7 +81,10 @@ const InfoFields = ({ isEditable = false }: IPartOfUserProfile) => {
 				{isEditable ? (
 					<StyledDatePicker>
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<DatePicker onChange={value => setValue('age', value)} />
+							<DatePicker
+								defaultValue={dayjs(user.age)}
+								onChange={value => setValue('age', value)}
+							/>
 						</LocalizationProvider>
 					</StyledDatePicker>
 				) : (

@@ -8,7 +8,6 @@ import {
 import { IBurgerMenu } from './BurgerMenuType'
 
 function BurgerMenu({ links, isShow }: IBurgerMenu) {
-	console.log(links, isShow)
 	return (
 		<BurgerMenuStyled isShow={isShow}>
 			<BurgerMenuNavigation>

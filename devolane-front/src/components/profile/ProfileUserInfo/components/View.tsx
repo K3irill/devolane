@@ -5,10 +5,10 @@ import Avatar from './Avatar'
 import InfoFields from './InfoFields'
 import { useProfileContext } from '@/context/ProfileContext'
 
-import { SettingsBtn } from '../styled'
+import { BioField, SettingsBtn } from '../styled'
 
 const View = () => {
-	const { dispatch, handleLogOut, isMaster } = useProfileContext()
+	const { user, dispatch, handleLogOut, isMaster } = useProfileContext()
 
 	return (
 		<>
@@ -22,7 +22,7 @@ const View = () => {
 				</SettingsBtn>
 			)}
 			<Avatar />
-			<div>Hi there!</div>
+			<BioField>{user.bio}</BioField>
 			<InfoFields />
 			{isMaster && (
 				<Button onClick={handleLogOut} theme='red'>
