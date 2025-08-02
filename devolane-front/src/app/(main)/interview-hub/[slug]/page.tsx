@@ -298,9 +298,7 @@ const DirectionPageComponent = () => {
 	return (
 		<DirectionPage>
 			<Container>
-				<BackButton onClick={() => window.history.back()}>
-					← Назад к галактике
-				</BackButton>
+				<BackButton onClick={() => window.history.back()}>← Назад</BackButton>
 
 				<DirectionHeader>
 					<DirectionTitle>{direction.title}</DirectionTitle>

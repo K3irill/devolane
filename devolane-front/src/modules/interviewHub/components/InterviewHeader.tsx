@@ -1,6 +1,9 @@
 'use client'
 import React from 'react'
 import styled from 'styled-components'
+import GraphemeSplitter from 'grapheme-splitter'
+import { TypeAnimation } from 'react-type-animation'
+const splitter = new GraphemeSplitter()
 
 const HeaderContainer = styled.div`
 	text-align: center;
@@ -9,8 +12,10 @@ const HeaderContainer = styled.div`
 `
 
 const MainTitle = styled.h1`
-	font-size: 3.5rem;
+	letter-spacing: 3px;
+	font-size: 2rem;
 	font-weight: 700;
+	line-height: 1.5;
 	color: #ffffff;
 	margin: 0 0 10px 0;
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -38,7 +43,37 @@ const Subtitle = styled.p`
 const InterviewHeader: React.FC = () => {
 	return (
 		<HeaderContainer>
-			<MainTitle>Interview Hub</MainTitle>
+			<MainTitle>
+				<TypeAnimation
+					splitter={str => splitter.splitGraphemes(str)}
+					sequence={[
+						'Interview Hub 🇬🇧',
+						2000,
+						'Centro Colloqui 🇮🇹',
+						2000,
+						'面试中心 🇨🇳',
+						2000,
+						'Интервю Център 🇧🇬',
+						2000,
+						'Centro de Entrevistas 🇪🇸',
+						2000,
+						"Centre d'Entrevue 🇫🇷",
+						2000,
+						'साक्षात्कार केंद्र 🇮🇳',
+						2000,
+						'Интервью Хаб 🇷🇺',
+						2000,
+						'Vorstellungszentrum 🇩🇪',
+						2000,
+						'Entrevista Hub 🇵🇹',
+						2000,
+						'Mülakat Merkezi 🇹🇷',
+						2000,
+					]}
+					style={{ fontSize: '2em' }}
+					repeat={Infinity}
+				/>
+			</MainTitle>
 			<Subtitle>Выберите направление и погрузитесь в мир технологий</Subtitle>
 		</HeaderContainer>
 	)
