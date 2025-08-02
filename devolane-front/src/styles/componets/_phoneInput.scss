@@ -5,6 +5,11 @@
 		border-bottom: 1px solid #7f9b9a34 !important;
 		width: 100% !important;
 		border-radius: 0px !important;
+
+		@media (max-width: 1199px) {
+			padding-left: 32px !important;
+			font-size: 10px !important;
+		}
 	}
 	.flag-dropdown {
 		background: transparent !important;
@@ -13,6 +18,10 @@
 
 	.selected-flag {
 		transition: all 0.3s;
+
+		@media (max-width: 1199px) {
+			transform: scale(0.7) !important;
+		}
 	}
 	.selected-flag:hover {
 		background: transparent !important;

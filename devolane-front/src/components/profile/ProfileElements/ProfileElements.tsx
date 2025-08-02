@@ -14,6 +14,7 @@ import {
 	SwiperWrapper,
 	GroupImg,
 	GroupInfo,
+	ProfileScrollWrapper,
 } from './styled'
 import { ProfileElementsProps } from './types'
 
@@ -166,22 +167,24 @@ const ProfileElements: React.FC<ProfileElementsProps> = () => {
 
 	return (
 		<ProfileElementsWrapper>
-			<ProfileElementsList>
-				{ELEMENTS &&
-					ELEMENTS.map(element => {
-						const IconComponent = iconComponents[element.icon]
-						return (
-							<ProfileElementItem
-								onClick={() => handleOpenElement(element.type)}
-								key={element.id}
-								isOpen={activeElement === element.type}
-							>
-								<IconComponent />
-								<ProfileItemTitle>{element.title}</ProfileItemTitle>
-							</ProfileElementItem>
-						)
-					})}
-			</ProfileElementsList>
+			<ProfileScrollWrapper>
+				<ProfileElementsList>
+					{ELEMENTS &&
+						ELEMENTS.map(element => {
+							const IconComponent = iconComponents[element.icon]
+							return (
+								<ProfileElementItem
+									onClick={() => handleOpenElement(element.type)}
+									key={element.id}
+									isOpen={activeElement === element.type}
+								>
+									<IconComponent />
+									<ProfileItemTitle>{element.title}</ProfileItemTitle>
+								</ProfileElementItem>
+							)
+						})}
+				</ProfileElementsList>
+			</ProfileScrollWrapper>
 			{activeElement && (
 				<ProfileElementsContent
 					key={activeElement}

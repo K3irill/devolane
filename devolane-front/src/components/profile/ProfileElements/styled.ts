@@ -1,24 +1,56 @@
+import { breakpoints } from '@/lib/constants/Breackpoints'
 import { glassBackground } from '@/styles/mixins'
 import { motion } from 'framer-motion'
 import styled, { css } from 'styled-components'
+
+export const ProfileScrollWrapper = styled.div`
+	position: relative;
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	padding: 10px 0;
+	height: 80px;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@media ${breakpoints.tabletMax} {
+		padding: 5px 0;
+		height: 47px;
+	}
+`
 
 export const ProfileElementsWrapper = styled(motion.div)`
 	${glassBackground};
 	padding: 25px;
 	display: flex;
 	flex-direction: column;
-	gap: 25px;
+	gap: 5px;
 	width: 100%;
+
+	@media ${breakpoints.tabletMax} {
+		gap: 10px;
+		padding: 20px;
+	}
 `
+
 export const ProfileElementsList = styled.div`
 	display: flex;
+	flex-wrap: nowrap;
 	gap: 15px;
+	width: fit-content;
+	min-width: fit-content;
+	position: absolute;
 `
+
 export const ProfileElementsContent = styled(motion.div)`
 	width: 100%;
 `
 
 export const ProfileElementItem = styled.div<{ isOpen?: boolean }>`
+	white-space: nowrap;
+	min-width: fit-content;
 	padding: 15px 25px;
 	background: #0301182e;
 	border: 1px solid #c6d9e8;
@@ -29,6 +61,11 @@ export const ProfileElementItem = styled.div<{ isOpen?: boolean }>`
 	gap: 10px;
 	align-items: center;
 	justify-content: center;
+
+	@media ${breakpoints.tabletMax} {
+		padding: 5px 10px;
+		font-size: 12px;
+	}
 
 	&:hover {
 		transform: translateY(-2px);
@@ -41,21 +78,9 @@ export const ProfileElementItem = styled.div<{ isOpen?: boolean }>`
 		css`
 			background: #c6d9e8;
 			color: #151618fd;
-
-			// &:after {
-			// 	content: '';
-			// 	position: absolute;
-			// 	left: 50%;
-			// 	transform: translateX(-50%);
-			// 	bottom: -10px;
-			// 	width: 0;
-			// 	height: 0;
-			// 	border-left: 8px solid transparent;
-			// 	border-right: 8px solid transparent;
-			// 	border-top: 10px solid #c6d9e8;
-			// }
 		`}
 `
+
 export const ProfileItemTitle = styled.p`
 	padding-top: 3px;
 `
@@ -100,6 +125,10 @@ export const GroupElement = styled(motion.div)`
 	align-items: stretch;
 	gap: 10px;
 	overflow: hidden;
+
+	@media ${breakpoints.tabletMax} {
+		gap: 20px;
+	}
 `
 
 export const SwiperWrapper = styled.div`
@@ -120,6 +149,7 @@ export const GroupImg = styled.div`
 		object-fit: cover;
 	}
 `
+
 export const GroupInfo = styled.div`
 	display: flex;
 	flex-direction: column;

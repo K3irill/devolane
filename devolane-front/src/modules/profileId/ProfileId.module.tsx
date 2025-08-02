@@ -11,7 +11,7 @@ import {
 } from './styled'
 import ProfileUserInfo from '@/components/profile/ProfileUserInfo/ProfileUserInfo'
 import ProfileStats from '@/components/profile/ProfileStats/ProfileStats'
-import ProfileNavigation from '@/components/profile/ProfileNavigation/ProfileNavigation'
+
 import Container from '@/components/Container/Container'
 import ProfileElements from '@/components/profile/ProfileElements/ProfileElements'
 
@@ -47,7 +47,7 @@ const ProfileIdModule = () => {
 							interviews={0}
 							communityInteractions={0}
 						/>
-						<ProfileNavigation />
+						{/* <ProfileNavigation /> */}
 					</ProfileSideBlockStyled>
 				</ProfileIdContentStyled>
 			</Container>

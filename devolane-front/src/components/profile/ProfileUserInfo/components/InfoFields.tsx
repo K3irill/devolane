@@ -22,12 +22,17 @@ import {
 	InfoValue,
 	InfoInput,
 	StyledDatePicker,
-	InfoInputSelect,
+	CustomSelect,
 } from '../styled'
+
+import MenuItem from '@mui/material/MenuItem'
+import InputBase from '@mui/material/InputBase'
+import { Gender } from '@/types/user/IUser'
 
 const InfoFields = ({ isEditable = false }: IPartOfUserProfile) => {
 	const {
 		errors,
+		watch,
 		register,
 		saveSettings,
 		formRef,
@@ -94,10 +99,24 @@ const InfoFields = ({ isEditable = false }: IPartOfUserProfile) => {
 
 			<InfoField icon={WcIcon} label='Gender' error={errors.gender?.message}>
 				{isEditable ? (
-					<InfoInputSelect {...register('gender')}>
-						<option value='male'>Male</option>
-						<option value='female'>Female</option>
-					</InfoInputSelect>
+					<CustomSelect
+						{...register('gender')}
+						labelId='gender-select-label'
+						id='gender-select'
+						value={
+							watch('gender')?.toLowerCase() || user.gender?.toLowerCase() || ''
+						}
+						onChange={e => setValue('gender', e.target.value as Gender)}
+						displayEmpty
+						fullWidth
+						input={<InputBase />}
+					>
+						<MenuItem value='' disabled>
+							Select gender
+						</MenuItem>
+						<MenuItem value='male'>Male</MenuItem>
+						<MenuItem value='female'>Female</MenuItem>
+					</CustomSelect>
 				) : (
 					<InfoValue withupperletter>{user.gender || '-'}</InfoValue>
 				)}

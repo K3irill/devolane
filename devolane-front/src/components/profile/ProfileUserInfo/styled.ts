@@ -1,6 +1,58 @@
+import { breakpoints } from '@/lib/constants/Breackpoints'
 import { glassBackground } from '@/styles/mixins'
 import { motion } from 'framer-motion'
 import styled, { css } from 'styled-components'
+
+import Select from '@mui/material/Select'
+
+export const CustomSelect = styled(Select)(() => ({
+	cursor: 'pointer',
+	background: 'transparent',
+	border: 'none',
+	borderBottom: '1px solid #7f9b9a34',
+	width: '100%',
+	fontSize: '18px',
+	padding: 0,
+	color: '#b0b8c1',
+
+	'& .MuiInputBase-root': {
+		borderRadius: '0 !important',
+	},
+
+	'& .MuiOutlinedInput-root': {
+		borderRadius: '0 !important',
+	},
+
+	'& .MuiSelect-select': {
+		padding: 0,
+		color: '#b0b8c1',
+		fontSize: '18px',
+	},
+
+	'&.Mui-focused': {
+		borderBottom: '1px solid #7f9b9a34',
+	},
+
+	'& .MuiOutlinedInput-notchedOutline': {
+		border: 'none',
+		borderRadius: '0 !important',
+	},
+
+	'&:hover .MuiOutlinedInput-notchedOutline': {
+		border: 'none',
+		borderRadius: '0 !important',
+	},
+
+	'& .MuiSelect-icon': {
+		color: '#b0b8c1',
+	},
+
+	[`@media ${breakpoints.tabletMax}`]: {
+		'& .MuiSelect-select': {
+			fontSize: '12px',
+		},
+	},
+}))
 
 export const ProfileUserInfoWrapper = styled.div`
 	${glassBackground};
@@ -34,6 +86,11 @@ export const ProfileUserContent = styled(motion.div)`
 	padding: 1rem;
 	height: 100%;
 	position: relative;
+
+	@media ${breakpoints.tabletMax} {
+		gap: 1.8rem;
+		padding: 0.4rem;
+	}
 `
 
 export const ProfileUserAvatarWrap = styled.div<{ onClick?: () => void }>`
@@ -57,6 +114,11 @@ export const ProfileUserAvatarWrap = styled.div<{ onClick?: () => void }>`
 		opacity: 0.2;
 		z-index: -1;
 		animation: pulse 2s infinite;
+
+		@media ${breakpoints.tabletMax} {
+			width: 155px;
+			height: 155px;
+		}
 	}
 
 	@keyframes pulse {
@@ -91,6 +153,11 @@ export const ProfileUserAvatar = styled.div`
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+
+	@media ${breakpoints.tabletMax} {
+		width: 140px;
+		height: 140px;
 	}
 `
 
@@ -131,6 +198,10 @@ export const InfoItem = styled.div`
 	box-shadow: none;
 	border: none;
 	position: relative;
+
+	@media ${breakpoints.tabletMax} {
+		min-width: auto;
+	}
 `
 
 export const InfoIcon = styled.span`
@@ -162,22 +233,9 @@ export const InfoInput = styled.input`
 		border-bottom: 2px solid #7f9b9a34;
 		outline: none;
 	}
-`
-export const InfoInputSelect = styled.select`
-	cursor: pointer;
-	border: none;
-	background: transparent;
-	border-bottom: 1px solid #7f9b9a34;
-	width: 100%;
-	font-size: 18px;
 
-	&:focus {
-		border-bottom: 2px solid #7f9b9a34;
-		outline: none;
-	}
-
-	& option {
-		color: #b0b8c1;
+	@media ${breakpoints.tabletMax} {
+		font-size: 12px;
 	}
 `
 
@@ -190,6 +248,23 @@ export const StyledDatePicker = styled.div`
 	}
 	.MuiTextField-root {
 		width: 100%;
+	}
+
+	.MuiPickersInputBase-root {
+		flex-direction: row-reverse;
+		justify-content: start !important;
+	}
+
+	.MuiButtonBase-root,
+	.MuiPickersSectionList-section,
+	.MuiInputAdornment-root,
+	.MuiPickersSectionList-root {
+		width: fit-content !important;
+		justify-content: start;
+	}
+
+	.MuiButtonBase-root {
+		padding-right: 20px !important;
 	}
 
 	.MuiFormControl-root {
@@ -228,7 +303,24 @@ export const StyledDatePicker = styled.div`
 	.MuiPickersInputBase-root {
 		justify-content: space-between;
 		width: 100%;
-		padding: 3px 17px !important;
+		padding: 3px 3px !important;
+	}
+
+	@media ${breakpoints.tabletMax} {
+		* {
+			width: 100% !important;
+		}
+		.MuiPickersSectionList-root {
+			font-size: 12px;
+		}
+		.MuiSvgIcon-root {
+			width: 20px !important;
+			height: 20px;
+		}
+
+		.MuiButtonBase-root {
+			justify-content: end;
+		}
 	}
 `
 
@@ -244,6 +336,10 @@ export const InfoValue = styled.span<{ withupperletter?: boolean }>`
 		text-transform: uppercase;
 	}
     text-transform: lowercase;`}
+
+	@media ${breakpoints.tabletMax} {
+		font-size: 10px;
+	}
 `
 
 export const SettingsBtn = styled(motion.div)`
@@ -266,4 +362,10 @@ export const BioField = styled(motion.div)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	text-align: center;
+
+	@media ${breakpoints.tabletMax} {
+		line-height: 1.5;
+		font-size: 0.6rem;
+	}
 `

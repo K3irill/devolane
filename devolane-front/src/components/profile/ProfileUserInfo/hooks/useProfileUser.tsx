@@ -43,6 +43,7 @@ function useProfileUser({ user, formRef }: useProfileUserType) {
 		register,
 		handleSubmit,
 		setValue,
+		watch,
 		formState: { errors },
 	} = useForm<UserProfileSchema>({
 		resolver: yupResolver(userProfileSchema),
@@ -101,6 +102,7 @@ function useProfileUser({ user, formRef }: useProfileUserType) {
 	}
 
 	return {
+		watch,
 		state,
 		dispatch,
 		saveSettings,

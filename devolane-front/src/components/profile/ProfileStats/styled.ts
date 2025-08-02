@@ -1,3 +1,4 @@
+import { breakpoints } from '@/lib/constants/Breackpoints'
 import styled from 'styled-components'
 
 export const ProfileStatsWrapper = styled.div`
@@ -6,6 +7,11 @@ export const ProfileStatsWrapper = styled.div`
 	gap: 1rem;
 	padding: 1rem 0;
 	width: 100%;
+
+	@media ${breakpoints.tabletMax} {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.5rem;
+	}
 `
 
 export const StatsBlock = styled.div<{ $glassBackground?: boolean }>`
@@ -26,13 +32,23 @@ export const StatsBlock = styled.div<{ $glassBackground?: boolean }>`
 	&:hover {
 		transform: translateY(-2px);
 	}
+
+	@media ${breakpoints.tabletMax} {
+		padding: 0.3rem;
+		min-height: 80px;
+	}
 `
 
 export const StatValue = styled.span`
+	display: inline-block;
 	font-size: 2rem;
 	font-weight: bold;
 	color: #fff;
 	margin-bottom: 0.5rem;
+
+	@media ${breakpoints.tabletMax} {
+		font-size: 1rem;
+	}
 `
 
 export const StatLabel = styled.span`
@@ -40,4 +56,9 @@ export const StatLabel = styled.span`
 	color: rgba(255, 255, 255, 0.7);
 	text-align: center;
 	line-height: 1.6;
+
+	@media ${breakpoints.tabletMax} {
+		font-size: 0.6rem;
+		width: 50%;
+	}
 `

@@ -35,7 +35,7 @@ const HeaderMainType = () => {
 					<span>Devo</span>lane
 				</Link>
 			</Logo>
-			<HeaderNavigation>
+			<HeaderNavigation isMain>
 				<HeaderNavList>
 					{NAV_LINKS.map(item => (
 						<HeaderNavItem isDisabled={!item.enable} key={item.id}>

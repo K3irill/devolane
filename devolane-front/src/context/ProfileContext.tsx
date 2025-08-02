@@ -4,6 +4,7 @@ import {
 	FieldErrors,
 	UseFormHandleSubmit,
 	UseFormSetValue,
+	UseFormWatch,
 } from 'react-hook-form'
 
 import { IUser } from '@/types/user/IUser'
@@ -26,7 +27,7 @@ export type ProfileContextType = {
 	formRef: React.RefObject<HTMLFormElement | null>
 	photoInputRef: React.RefObject<HTMLInputElement | null>
 	openPhotoInput: () => void
-
+	watch: UseFormWatch<UserProfileSchema>
 	user: IUser
 	isMaster?: boolean
 	isLoading: boolean

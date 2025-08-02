@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { logoColorAnimation } from '../../styled'
+import { breakpoints } from '@/lib/constants/Breackpoints'
 
 export const Logo = styled.div`
 	font-size: 2rem;
@@ -21,6 +22,10 @@ export const Logo = styled.div`
 
 	&:hover {
 		transform: scale(1.05);
+	}
+
+	@media ${breakpoints.tabletMax} {
+		font-size: 1rem;
 	}
 `
 
@@ -59,11 +64,13 @@ export const UserWidgetInfo = styled(motion.div)`
 	gap: 5px;
 	text-align: right;
 `
+
 export const UserWidgetName = styled(motion.div)`
 	font-size: 12px;
 `
+
 export const UserWidgetUsername = styled(motion.div)`
-	font-size: 0.7rem;
+	font-size: 0.5rem;
 	opacity: 0.8;
 	color: #a5fdec;
 `

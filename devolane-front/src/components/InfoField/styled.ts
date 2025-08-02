@@ -1,3 +1,4 @@
+import { breakpoints } from '@/lib/constants/Breackpoints'
 import styled from 'styled-components'
 
 export const InfoItem = styled.div`
@@ -12,15 +13,30 @@ export const InfoItem = styled.div`
 	box-shadow: none;
 	border: none;
 	position: relative;
+
+	@media ${breakpoints.tabletMax} {
+		gap: 0.4rem;
+		min-width: auto;
+	}
 `
 
-export const InfoIcon = styled.span`
+export const InfoIcon = styled.div`
 	display: flex;
 	align-items: center;
 	color: #b0b8c1;
 	font-size: 1.2rem;
-	min-width: 24px;
-	min-height: 24px;
+
+	@media ${breakpoints.tabletMin} {
+		min-width: 24px;
+		min-height: 24px;
+	}
+
+	@media ${breakpoints.tabletMax} {
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
 `
 
 export const InfoLabel = styled.span`
@@ -30,6 +46,11 @@ export const InfoLabel = styled.span`
 	margin-right: 0.5rem;
 	letter-spacing: 0.5px;
 	text-wrap: nowrap;
+
+	@media ${breakpoints.tabletMax} {
+		font-size: 0.5rem;
+		margin-right: 0;
+	}
 `
 
 export const InfoInput = styled.input`

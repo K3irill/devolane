@@ -104,17 +104,6 @@ export const Logo = styled.div`
 	}
 `
 
-export const HeaderNavigation = styled.nav`
-	width: 50%;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-
-	@media ${breakpoints.mobileMax} {
-		display: none;
-	}
-`
-
 export const HeaderNavList = styled.nav`
 	display: flex;
 	justify-content: space-between;
@@ -232,6 +221,33 @@ export const BurgerIcon = styled.div<{ isOpen?: boolean }>`
   `}
 
 	@media ${breakpoints.mobileMin} {
+		display: none;
+	}
+`
+
+export const HeaderNavigation = styled.nav<{ isMain?: boolean }>`
+	width: 50%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+
+	${p =>
+		p.isMain &&
+		`
+    @media ${breakpoints.tabletMax} {
+      ${HeaderNavList}{
+       	gap: 10px;
+      }
+
+      ${HeaderNavItem}{
+        a{
+          font-size: 0.6rem;
+        }
+      }
+    }
+  `}
+
+	@media ${breakpoints.mobileMax} {
 		display: none;
 	}
 `
