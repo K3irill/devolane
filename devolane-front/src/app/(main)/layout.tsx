@@ -4,6 +4,7 @@ import { EnHeaderType } from '@/components/Header/Header.types'
 import { Providers } from '@/providers/providers'
 import '@/styles/globals.scss'
 import { getCurrentUserWithCookie } from '@/lib/utils/getCurrentUserWithCookie'
+import StyledComponentsRegistry from '@/components/StyledComponentsRegistry/StyledComponentsRegistry.tsx'
 
 export const metadata = {
 	title: 'Welcome to Devolane!',
@@ -25,7 +26,9 @@ export default async function RootLayout({
 			>
 				<Providers user={currentUser?.data}>
 					<Header type={EnHeaderType.Main} />
-					<main>{children}</main>
+					<main>
+						<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+					</main>
 				</Providers>
 			</body>
 		</html>

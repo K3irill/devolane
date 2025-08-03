@@ -40,7 +40,7 @@
 		"react-ui-phone-input": "^2.16.2",
 		"sass": "^1.89.2",
 		"scss": "^0.2.4",
-		"styled-components": "^6.1.18",
+		"styled-components": "^6.1.19",
 		"swiper": "^11.2.8",
 		"three": "^0.177.0",
 		"yup": "^1.6.1"

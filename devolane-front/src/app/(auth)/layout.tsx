@@ -4,6 +4,7 @@ import { EnHeaderType } from '@/components/Header/Header.types'
 import { Providers } from '@/providers/providers'
 import '@/styles/globals.scss'
 import { bungeeOutline, bungeeShade, gugi } from '@/assets/fonts/fonts'
+import StyledComponentsRegistry from '@/components/StyledComponentsRegistry/StyledComponentsRegistry.tsx'
 
 export const metadata = {
 	title: 'Welcome to Devolane!',
@@ -23,7 +24,7 @@ export default function RootLayout({
 			>
 				<Providers>
 					<Header type={EnHeaderType.Auth} />
-					{children}
+					<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
 				</Providers>
 			</body>
 		</html>
